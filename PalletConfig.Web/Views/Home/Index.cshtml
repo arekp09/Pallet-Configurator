@@ -4,37 +4,96 @@
 
 <div class="container">
     <div class="col-md-6">
-        <div class="row"> <!-- Pallet parameters -->
+        <div class="row form-border">
+            <!-- Pallet parameters -->
             <form>
                 <div class="form-group">
                     <label>Input pallet size:</label>
                     <div class="row">
                         <div class="col-xs-4">
-                            <input class="form-control" id="sizeX" placeholder="X" />
+                            <input class="form-control" id="palletSizeX" placeholder="X" />
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" id="sizeY" placeholder="Y" />
+                            <input class="form-control" id="palletSizeY" placeholder="Y" />
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" id="sizeZ" placeholder="Z" />
+                            <input class="form-control" id="palletSizeZ" placeholder="Z" />
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="row"> <!-- Box parameters -->
-
+        <div class="row form-border">
+            <!-- Box parameters -->
+            <form>
+                <div class="form-group">
+                    <label>Input box parameters:</label>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <input class="form-control" id="boxSizeX" placeholder="X" />
+                        </div>
+                        <div class="col-xs-4">
+                            <input class="form-control" id="boxSizeY" placeholder="Y" />
+                        </div>
+                        <div class="col-xs-4">
+                            <input class="form-control" id="boxSizeZ" placeholder="Z" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>Box weight:</label>
+                        </div>
+                        <div class="col-xs-4">
+                            <input class="form-control" id="boxWeight" placeholder="Kg" />
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="row"> <!-- Stacking requirements -->
-
+        <div class="row form-border">
+            <!-- Stacking requirements -->
+            <form>
+                <div class="form-group">
+                    <label>Max height:</label>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <input class="form-control" id="palletHeight" placeholder="Pallet height" />
+                        </div>
+                    </div>
+                    <label>Max weight:</label>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <input class="form-control" id="palletWeight" placeholder="Pallet weight" />
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="row"> <!-- Best option calculation -->
-            
+        <div class="row form-border">
+            <!-- Best option calculation -->
+            <div class="form-group">
+                <label for="chooseStackingOption">Select stacking option</label>
+                <select multiple class="form-control" id="chooseStackingOption">
+                    <option>Boxes: 100, Height: 1000, Weight: 10, Utilisation: 70%</option>
+                    <option>Boxes: 200, Height: 2000, Weight: 20, Utilisation: 80%</option>
+                    <option>Boxes: 300, Height: 3000, Weight: 30, Utilisation: 90%</option>
+                    <option>Boxes: 400, Height: 4000, Weight: 40, Utilisation: 100%</option>
+                </select>
+            </div>
+        </div>
+        <div class="row form-border">
+            <!-- Best option calculation -->
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary mb-2">Confirm</button>
+                <button type="submit" class="btn btn-danger mb-2">Reset</button>
+            </div>
         </div>
     </div>
-    <div class="col-md-7">
-
+    <div class="col-md-6">
+        <div class="row form-border">
+            <!-- Display graphical presentation of pallet-->
+            <label>Pallet view:</label>
+        </div>
     </div>
 </div>
-
 

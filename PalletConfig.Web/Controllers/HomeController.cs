@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PalletConfig.Library;
 using PalletConfig.Web.Models;
 
 namespace PalletConfig.Web.Controllers
@@ -38,6 +39,12 @@ namespace PalletConfig.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpPost]
+        public IActionResult Confirm(Pallet model)
+        {
+            return Content($"Pallet Size X: {model.PalletSizeX} \nBox Size X: {model.BoxSizeX}");
         }
     }
 }

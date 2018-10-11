@@ -4,7 +4,9 @@
     })();
 
     var camera, scene, renderer;
-    var geometry, material, mesh;
+    var meshTop;
+    var position = new Coordinates(0, 0, 0);
+    var palletSize = new Coordinates(1, 0.2, 1.5);
     var isAnimationOn = true;
 
     function init() {
@@ -12,20 +14,12 @@
         var canvasWidth = canvas.getAttribute('width');
         var canvasHeight = canvas.getAttribute('height');
 
-
         camera = new THREE.PerspectiveCamera(70, canvasWidth / canvasHeight, 0.01, 100);
         camera.position.z = 2;
+        camera.position.y = 0.5;
+        //camera.position.x = -1;
 
         scene = new THREE.Scene();
-
-        //geometry = new THREE.BoxGeometry(0.2, 0.2, 0.5);
-        //var edges = new THREE.EdgesGeometry(geometry);
-        //var line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xff0000 }));
-        //var line2 = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xff0000 }));
-        //scene.add(line);
-        //scene.add(line2);
-
-        //material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
 
         light1 = new THREE.PointLight(0x404040, 10, 100);
         light1.position.set(1, 1, 1);
@@ -37,32 +31,16 @@
 
         createPallet();
 
-        //mesh = new THREE.Mesh(geometry, material);
-        //scene.add(mesh);
-        //mesh.position.set(0, 0, 0);
-        //line.position.set(0, 0, 0);
-        //mesh.add(line);
-
-        //var mesh2 = new THREE.Mesh(geometry, material);
-        //scene.add(mesh2);
-        //mesh2.position.set(0.2, 0, 0);
-        //line2.position.set(0.2, 0, 0);
-        //mesh.add(line2);
-        //mesh.add(mesh2);
-
-        
-
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(canvasWidth, canvasHeight);
-        canvas.appendChild(renderer.domElement);
-        //mesh.rotation.x = 0.3;
+        canvas.appendChild(renderer.domElement);       
     }
 
     function animate() {
         if (isAnimationOn) {
             requestAnimationFrame(animate);
-            //mesh.rotation.x += 0.01;
-            //mesh.rotation.y += 0.005;
+            //meshTop.rotation.x += 0.01;
+            meshTop.rotation.y += 0.005;
             renderer.render(scene, camera);
         }
     }
@@ -77,35 +55,51 @@
     }
 
     function createPallet() {
-        var position = new Coordinates(0, 0, 0);
-        var palletSize = new Coordinates(2, 0.5, 1);
+        var material = new THREE.MeshPhongMaterial({ color: 0xb38600 });
 
-        //Create top flat layer for pallet
-        createPalletFlat(palletSize, position);
-
-        //Create middle bricks for pallet
-
-
-        //Create bottom flat layer for pallet
+        // Create top of pallet
+        var geometryTop = new THREE.BoxGeometry(palletSize.X, (palletSize.Y * 0.05), palletSize.Z);
+        var edgesTop = new THREE.EdgesGeometry(geometryTop);
+        var lineEdgesTop = new THREE.LineSegments(edgesTop, new THREE.LineBasicMaterial({ color: 0x000000 }));
+        meshTop = new THREE.Mesh(geometryTop, material)
+        scene.add(lineEdgesTop);
+        scene.add(meshTop);
+        meshTop.add(lineEdgesTop);
+        meshTop.position.set(position.X, position.Y, position.Z);        
         
-    }
-
-    function createPalletFlat(_palletSize, _position) {
-        geometryFlat = new THREE.BoxGeometry(_palletSize.X, (_palletSize.Y*0.05), _palletSize.Z);
-        var edgesFlat = new THREE.EdgesGeometry(geometryFlat);
-        var lineEdgesFlat = new THREE.LineSegments(edgesFlat, new THREE.LineBasicMaterial({ color: 0x000000 }));
-        var materialFlat = new THREE.MeshBasicMaterial({ color: 0xb38600 });
-        var meshFlat = new THREE.Mesh(geometryFlat, materialFlat)
-        scene.add(lineEdgesFlat);
-        scene.add(meshFlat);
-        meshFlat.add(lineEdgesFlat);
-        meshFlat.position.set(_position.X, _position.Y, _position.Z);
-        meshFlat.rotation.x = 0.2;
-        meshFlat.rotation.y = 0.2;
-    }
-
-    function createPalletBrick() {
-
+        // Create bottom of pallet
+        var lineEdgesBottom = new THREE.LineSegments(edgesTop, new THREE.LineBasicMaterial({ color: 0x000000 }));
+        var meshBottom = new THREE.Mesh(geometryTop, material);
+        scene.add(lineEdgesBottom);
+        scene.add(meshBottom);
+        meshBottom.add(lineEdgesBottom);
+        meshBottom.position.set(position.X, position.Y - (palletSize.Y * 0.95), position.Z);
+        meshTop.add(meshBottom);
+        
+        // Create middle bricks
+        var geometryBrick = new THREE.BoxGeometry(palletSize.X * 0.1, (palletSize.Y * 0.9), palletSize.Z);
+        var edgesBrick = new THREE.EdgesGeometry(geometryBrick);
+        var lineEdgesBrick1 = new THREE.LineSegments(edgesBrick, new THREE.LineBasicMaterial({ color: 0x000000 }));
+        var lineEdgesBrick2 = new THREE.LineSegments(edgesBrick, new THREE.LineBasicMaterial({ color: 0x000000 }));
+        var lineEdgesBrick3 = new THREE.LineSegments(edgesBrick, new THREE.LineBasicMaterial({ color: 0x000000 }));
+        var meshBrick1 = new THREE.Mesh(geometryBrick, material);
+        var meshBrick2 = new THREE.Mesh(geometryBrick, material);
+        var meshBrick3 = new THREE.Mesh(geometryBrick, material);
+        scene.add(lineEdgesBrick1);
+        scene.add(lineEdgesBrick2);
+        scene.add(lineEdgesBrick3);
+        scene.add(meshBrick1);
+        scene.add(meshBrick2);
+        scene.add(meshBrick3);
+        meshBrick1.add(lineEdgesBrick1);
+        meshBrick2.add(lineEdgesBrick2);
+        meshBrick3.add(lineEdgesBrick3);
+        meshTop.add(meshBrick1);
+        meshTop.add(meshBrick2);
+        meshTop.add(meshBrick3);
+        meshBrick1.position.set(position.X - (palletSize.X * 0.45), position.Y - (palletSize.Y * 0.5), position.Z);
+        meshBrick2.position.set(position.X, position.Y - (palletSize.Y * 0.5), position.Z);
+        meshBrick3.position.set(position.X + (palletSize.X * 0.45), position.Y - (palletSize.Y * 0.5), position.Z);        
     }
 
     init();

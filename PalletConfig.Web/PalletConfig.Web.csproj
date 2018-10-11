@@ -6,6 +6,12 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\css\StyleSheet.css" />
+    <Content Remove="wwwroot\images\banner1.svg" />
+    <Content Remove="wwwroot\images\banner2.svg" />
+    <Content Remove="wwwroot\images\banner3.svg" />
+    <Content Remove="wwwroot\js\JavaScript.js" />
+    <Content Remove="wwwroot\js\site.js" />
+    <Content Remove="wwwroot\js\site.min.js" />
   </ItemGroup>
 
   <ItemGroup>

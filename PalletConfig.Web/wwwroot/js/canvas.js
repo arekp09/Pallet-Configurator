@@ -30,8 +30,8 @@
         scene.add(light2);
 
         createPallet();
-        meshTop.rotation.x = 0.1;
-        meshTop.rotation.y = 0.5;
+        camera.position.x = 1;
+        camera.position.y = 0.5;
 
         controls = new THREE.OrbitControls(camera);
         controls.addEventListener('change', renderer);

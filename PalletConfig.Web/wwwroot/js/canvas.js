@@ -74,7 +74,7 @@
         // Create middle bricks
         var geometryBrick = new THREE.BoxGeometry(palletSize.X * 0.1, palletSize.Y * 0.9, palletSize.Z * 0.1);
         var brickPosX = position.X - (palletSize.X * 0.45);
-        var brickPosY = position.Y - (palletSize.Y * 0.5);
+        var brickPosY = position.Y - (palletSize.Y * 0.475);
         var brickPosZ = position.Z - (palletSize.Z * 0.45);
 
         for (var i = 0; i < 3; i++) {

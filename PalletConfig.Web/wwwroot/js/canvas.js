@@ -22,6 +22,11 @@
         position.Y + (palletSize.Y * 0.025) + (boxSize.Y * 0.5),
         position.Z - (palletSize.Z * 0.5) + (boxSize.Z * 0.5)
     );
+    var maxPosition = new Coordinates(
+        position.X + (palletSize.X * 0.5) - (boxSize.X * 0.5),
+        position.Y + (palletSize.Y * 0.025) + (boxSize.Y * 0.5),
+        position.Z + (palletSize.Z * 0.5) - (boxSize.Z * 0.5)
+    );
 
     function init() {
         var canvas = document.getElementById('canvas');
@@ -38,26 +43,25 @@
         scene = new THREE.Scene();
 
         // Set lights
-        light1 = new THREE.PointLight(0x404040, 10, 100);
-        light1.position.set(2, 1, 1);
+        light1 = new THREE.PointLight(0x404040, 5, 100);
+        light1.position.set(0, 3, 0);
         scene.add(light1);
 
         light2 = new THREE.PointLight(0x404040, 5, 100);
         light2.position.set(-2, -2, 2);
         scene.add(light2);
 
-        light3 = new THREE.AmbientLight(0x404040, 2);
+        light3 = new THREE.AmbientLight(0x404040, 2.5);
         scene.add(light3);
 
         // Create objects
         createPallet();
-        createAllBoxes(inputRowsPerLayer, inputColumnsPerLayer, zeroPosition, boxSize, inputLayersQuantity);
+        createAllBoxes(inputRowsPerLayer, inputColumnsPerLayer, zeroPosition, boxSize, inputLayersQuantity, maxPosition);
 
         // Controls
         controls = new THREE.OrbitControls(camera);
         controls.addEventListener('change', renderer);
         controls.target.set(0, 0.5, 0);
-
 
         // Rendering
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -123,23 +127,45 @@
         return _inputSize;
     }
 
-    function createAllBoxes(_numberRows, _numberColumns, _position, _boxSize, _layersQuantity) {
-        var posX = _position.X;
-        var posY = _position.Y;
-        var posZ = _position.Z;
+    function createAllBoxes(_numberRows, _numberColumns, _zeroPosition, _boxSize, _layersQuantity, _maxPosition) {
+        var posX = _zeroPosition.X;
+        var posY = _zeroPosition.Y;
+        var posZ = _zeroPosition.Z;
+        var changeSide = false;
         
         for (var i = 0; i < _layersQuantity; i++) {
-            generateLayer(_numberRows, _numberColumns, new Coordinates(X = posX, Y = posY, Z = posZ), _boxSize);
-            posX = _position.X;
-            posY += _boxSize.Y;
-            posZ = _position.Z;
+            generateLayer(_numberRows, _numberColumns, new Coordinates(X = posX, Y = posY, Z = posZ), _boxSize, changeSide);
+            
+            if (changeSide == true) {
+                changeSide = false;
+            }
+            else {
+                changeSide = true;
+            }
+
+            // Change coordinates of starting position
+            if (changeSide == true) {
+                posX = _maxPosition.X;
+                posY += _boxSize.Y;
+                posZ = _maxPosition.Z;
+            }
+            else {
+                posX = _zeroPosition.X;
+                posY += _boxSize.Y;
+                posZ = _zeroPosition.Z;
+            }
         }
     }
 
-    function generateLayer(_numberRows, _numberColumns, _position, _boxSize) {
+    function generateLayer(_numberRows, _numberColumns, _position, _boxSize, _changeSide) {
         for (var i = 0; i < _numberRows; i++) {
             for (var j = 0; j < _numberColumns; j++) {
-                generateBox(_boxSize, _position.X + (_boxSize.X * i), _position.Y, _position.Z + (_boxSize.Z * j));
+                if (_changeSide == true) {
+                    generateBox(_boxSize, _position.X - (_boxSize.X * i), _position.Y, _position.Z - (_boxSize.Z * j));
+                }
+                else {
+                    generateBox(_boxSize, _position.X + (_boxSize.X * i), _position.Y, _position.Z + (_boxSize.Z * j));
+                }
             }
         }
     }

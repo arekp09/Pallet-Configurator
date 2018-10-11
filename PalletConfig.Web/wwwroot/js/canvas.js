@@ -6,7 +6,7 @@
     var camera, scene, renderer, controls;
     var meshTop; //parent of all objects
     var position = new Coordinates(0, 0, 0);
-    var palletSize = new Coordinates(1, 0.2, 1.5);
+    var palletSize = new Coordinates(2, 0.2, 2);
 
     function init() {
         var canvas = document.getElementById('canvas');
@@ -28,6 +28,9 @@
         light2 = new THREE.PointLight(0x404040, 5, 100);
         light2.position.set(-2, -2, 2);
         scene.add(light2);
+
+        light3 = new THREE.AmbientLight(0x404040, 2);
+        scene.add(light3);
 
         createPallet();
         camera.position.x = 1;

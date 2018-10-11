@@ -3,10 +3,12 @@
         return window.requestAnimationFrame;
     })();
 
+    var inputSize = new Coordinates(120, 15, 100);
+    
     var camera, scene, renderer, controls;
     var meshTop; //parent of all objects
     var position = new Coordinates(0, 0, 0);
-    var palletSize = new Coordinates(2, 0.2, 2);
+    var palletSize = calculatePalletSize(inputSize);
 
     function init() {
         var canvas = document.getElementById('canvas');
@@ -93,6 +95,14 @@
             brickPosX = position.X - (palletSize.X * 0.45);
             brickPosZ += (palletSize.Z * 0.45);;
         }    
+    }
+
+    function calculatePalletSize(_inputSize) {
+        var inputSizeMax = Math.max(_inputSize.X, _inputSize.Y, _inputSize.Z)
+        _inputSize.X = (_inputSize.X / inputSizeMax) * 2;
+        _inputSize.Y = (_inputSize.Y / inputSizeMax) * 2;
+        _inputSize.Z = (_inputSize.Z / inputSizeMax) * 2;
+        return _inputSize;
     }
 
     init();

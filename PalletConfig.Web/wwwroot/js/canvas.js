@@ -22,11 +22,11 @@
 
         // Set lights
         light1 = new THREE.PointLight(0x404040, 10, 100);
-        light1.position.set(1, 1, 1);
+        light1.position.set(2, 1, 1);
         scene.add(light1);
 
         light2 = new THREE.PointLight(0x404040, 5, 100);
-        light2.position.set(-1, -1, 0);
+        light2.position.set(-2, -2, 2);
         scene.add(light2);
 
         createPallet();
@@ -54,7 +54,7 @@
     }
 
     function createPallet() {
-        var material = new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture('images/palletTexture.jpg')});
+        var material = new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture('images/palletTexture.jpg')});
 
         // Create top of pallet
         var geometryTop = new THREE.BoxGeometry(palletSize.X, (palletSize.Y * 0.05), palletSize.Z);

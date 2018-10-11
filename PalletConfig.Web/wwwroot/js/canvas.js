@@ -4,7 +4,7 @@
     })();
 
     var camera, scene, renderer, controls;
-    var meshTop;
+    var meshTop; //parent of all objects
     var position = new Coordinates(0, 0, 0);
     var palletSize = new Coordinates(1, 0.2, 1.5);
 
@@ -30,6 +30,8 @@
         scene.add(light2);
 
         createPallet();
+        meshTop.rotation.x = 0.1;
+        meshTop.rotation.y = 0.5;
 
         controls = new THREE.OrbitControls(camera);
         controls.addEventListener('change', renderer);

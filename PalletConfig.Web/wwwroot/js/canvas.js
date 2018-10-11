@@ -16,8 +16,6 @@
         // Set camera
         camera = new THREE.PerspectiveCamera(70, canvasWidth / canvasHeight, 0.01, 100);
         camera.position.z = 2;
-        //camera.position.y = 0.5;
-        //camera.position.x = -1;
 
         // Set scene
         scene = new THREE.Scene();

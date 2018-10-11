@@ -7,7 +7,6 @@
     var meshTop;
     var position = new Coordinates(0, 0, 0);
     var palletSize = new Coordinates(1, 0.2, 1.5);
-    var isAnimationOn = true;
 
     function init() {
         var canvas = document.getElementById('canvas');
@@ -40,16 +39,11 @@
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(canvasWidth, canvasHeight);
         canvas.appendChild(renderer.domElement);    
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-
     }
 
     function animate() {
-        if (isAnimationOn) {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
     }
 
     function Coordinates(X, Y, Z) {
@@ -99,15 +93,5 @@
     }
 
     init();
-    //animate();
-
-    document.onclick = function () {
-        if (isAnimationOn) {
-            isAnimationOn = false;
-        }
-        else {
-            isAnimationOn = true;
-        }
-        animate();
-    }
+    animate();
 });

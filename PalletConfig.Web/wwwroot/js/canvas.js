@@ -29,8 +29,7 @@
         position.Y + (palletSize.Y * 0.025) + (boxSize.Y * 0.5),
         position.Z + (palletSize.Z * 0.5) - (boxSize.Z * 0.5)
     );
-    var areLayersOpposite = document.getElementById('areLayersOpposite');
-    alert(areLayersOpposite);
+    var areLayersOpposite = document.getElementById('areLayersOpposite').value;
 
     function init() {
         var canvas = document.getElementById('canvas');
@@ -86,8 +85,6 @@
     }
 
     function createPallet() {
-
-        alert(areLayersOpposite);
         // Create top of pallet
         var geometryTop = new THREE.BoxGeometry(palletSize.X, (palletSize.Y * 0.05), palletSize.Z);
         meshTop = new THREE.Mesh(geometryTop, materialPallet)
@@ -137,24 +134,28 @@
         
         for (var i = 0; i < _layersQuantity; i++) {
             generateLayer(_numberRows, _numberColumns, new Coordinates(X = posX, Y = posY, Z = posZ), _boxSize, changeSide);
-            
-            if (changeSide == true) {
-                changeSide = false;
-            }
-            else {
-                changeSide = true;
-            }
 
-            // Change coordinates of starting position
-            if (changeSide == true) {
-                posX = _maxPosition.X;
-                posY += _boxSize.Y;
-                posZ = _maxPosition.Z;
-            }
-            else {
-                posX = _zeroPosition.X;
-                posY += _boxSize.Y;
-                posZ = _zeroPosition.Z;
+            // Move position up to another layer
+            posY += _boxSize.Y;
+
+            // Check if user want to stack layers opposite
+            if (areLayersOpposite == true) {
+                if (changeSide == true) {
+                    changeSide = false;
+                }
+                else {
+                    changeSide = true;
+                }
+
+                // Change coordinates of starting position
+                if (changeSide == true) {
+                    posX = _maxPosition.X;
+                    posZ = _maxPosition.Z;
+                }
+                else {
+                    posX = _zeroPosition.X;
+                    posZ = _zeroPosition.Z;
+                }
             }
         }
     }

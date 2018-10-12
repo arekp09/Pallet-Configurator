@@ -57,9 +57,8 @@
         createAllBoxes(inputRowsPerLayer, inputColumnsPerLayer, zeroPosition, boxSize, inputLayersQuantity, maxPosition);
 
         // Controls
-        controls = new THREE.OrbitControls(camera);
-        var cameraTarget = new THREE.Vector3(0, 0.3, 0);
-        controls.target = cameraTarget;
+        controls = new THREE.OrbitControls(camera, canvas);
+        controls.target = new THREE.Vector3(0, 0.3, 0);
         controls.update();
 
         // Rendering

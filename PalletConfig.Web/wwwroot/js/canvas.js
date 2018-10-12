@@ -35,9 +35,7 @@
 
         // Set camera
         camera = new THREE.PerspectiveCamera(70, canvasWidth / canvasHeight, 0.01, 100);
-        camera.position.z = 2;
-        camera.position.y = 0.5;
-
+        camera.position.set(1, 1, 2);
 
         // Set scene
         scene = new THREE.Scene();
@@ -60,8 +58,9 @@
 
         // Controls
         controls = new THREE.OrbitControls(camera);
-        controls.addEventListener('change', renderer);
-        controls.target.set(0, 0.5, 0);
+        var cameraTarget = new THREE.Vector3(0, 0.3, 0);
+        controls.target = cameraTarget;
+        controls.update();
 
         // Rendering
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });

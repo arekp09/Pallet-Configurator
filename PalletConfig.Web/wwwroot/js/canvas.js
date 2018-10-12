@@ -11,6 +11,8 @@
     var inputLayersQuantity = 7;
 
     // Helpers
+    var materialPallet = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('images/palletTexture.jpg') });
+    var materialBox = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('images/boxTexture.jpg'), color: 0xb38600 });
     var inputSizeMax = Math.max(inputPalletSize.X, inputPalletSize.Y, inputPalletSize.Z)
     var camera, scene, renderer, controls;
     var meshTop; //parent of all objects
@@ -27,6 +29,8 @@
         position.Y + (palletSize.Y * 0.025) + (boxSize.Y * 0.5),
         position.Z + (palletSize.Z * 0.5) - (boxSize.Z * 0.5)
     );
+    var areLayersOpposite = document.getElementById('areLayersOpposite');
+    alert(areLayersOpposite);
 
     function init() {
         var canvas = document.getElementById('canvas');
@@ -82,18 +86,18 @@
     }
 
     function createPallet() {
-        var material = new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture('images/palletTexture.jpg')});
 
+        alert(areLayersOpposite);
         // Create top of pallet
         var geometryTop = new THREE.BoxGeometry(palletSize.X, (palletSize.Y * 0.05), palletSize.Z);
-        meshTop = new THREE.Mesh(geometryTop, material)
+        meshTop = new THREE.Mesh(geometryTop, materialPallet)
         scene.add(meshTop);
         meshTop.position.set(position.X, position.Y, position.Z);        
         
         // Create bottom of pallet
         var geometryBottom = new THREE.BoxGeometry(palletSize.X * 0.1, palletSize.Y * 0.05, palletSize.Z);
         for (var i = 0; i < 3; i++) {
-            var meshBottom = new THREE.Mesh(geometryBottom, material);
+            var meshBottom = new THREE.Mesh(geometryBottom, materialPallet);
             scene.add(meshBottom);
             meshBottom.position.set(position.X + (palletSize.X * 0.45) * (i-1), position.Y - (palletSize.Y * 0.95), position.Z);
             meshTop.add(meshBottom);
@@ -107,7 +111,7 @@
 
         for (var i = 0; i < 3; i++) {
             for (var j = 0; j < 3; j++) {
-                var meshBrick = new THREE.Mesh(geometryBrick, material);
+                var meshBrick = new THREE.Mesh(geometryBrick, materialPallet);
                 scene.add(meshBrick);
                 meshTop.add(meshBrick);
                 meshBrick.position.set(brickPosX, brickPosY, brickPosZ);
@@ -170,7 +174,6 @@
 
     function generateBox(_boxSize, posX, posY, posZ) {
         var geometryBox = new THREE.BoxGeometry(_boxSize.X, _boxSize.Y, _boxSize.Z);
-        var materialBox = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('images/boxTexture.jpg'), color: 0xb38600 });
         var meshBox = new THREE.Mesh(geometryBox, materialBox);
         scene.add(meshBox);
         meshTop.add(meshBox);

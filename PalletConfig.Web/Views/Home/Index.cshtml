@@ -57,9 +57,6 @@
                         <div class="col-xs-4">
                             <input class="form-control" asp-for="PalletHeight" placeholder="Pallet height" />
                         </div>
-                        <div class="col-xs-8">   
-                            <label><input type="checkbox" id="areLayersOpposite"> Stack layers on opposite side</label>
-                        </div>
                     </div>
                     <label>Max weight:</label>
                     <div class="row">
@@ -67,24 +64,20 @@
                             <input class="form-control" asp-for="PalletWeight" placeholder="Pallet weight" />
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row form-border">
-                <!-- Best option calculation -->
-                <div class="form-group">
-                    <label for="chooseStackingOption">Select stacking option</label>
-                    <select multiple class="form-control" id="chooseStackingOption">
-                        <option>Boxes: 100, Height: 1000, Weight: 10, Utilisation: 70%</option>
-                        <option>Boxes: 200, Height: 2000, Weight: 20, Utilisation: 80%</option>
-                        <option>Boxes: 300, Height: 3000, Weight: 30, Utilisation: 90%</option>
-                        <option>Boxes: 400, Height: 4000, Weight: 40, Utilisation: 100%</option>
-                    </select>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="checkbox-inline">
+                                <input type="checkbox" id="areLayersOpposite"> Stack layers on opposite side
+                            </div>                           
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row form-border">
                 <!-- Best option calculation -->
                 <div class="form-group text-right">
-                    <button type="submit" class="btn btn-primary mb-2" id="confirmBtn" value="Confirm">Confirm</button>
+                    <button type="submit" class="btn btn-primary mb-2" id="confirmBtnPost" value="Confirm">Confirm</button>
                     <button type="reset" class="btn btn-danger mb-2" id="resetBtn">Reset</button>
                 </div>
             </div>
@@ -96,6 +89,21 @@
             <label>Pallet view:</label>
             <div>
                 <div class="" id="canvas" width="400" height="300"></div>
+            </div>
+        </div>
+        <div class="row form-border">
+            <!-- Best option calculation -->
+            <div class="form-group">
+                <label for="chooseStackingOption">Select stacking option</label>
+                <select multiple class="form-control" id="chooseStackingOption">
+                    <option>Boxes: 100, Height: 1000, Weight: 10, Utilisation: 70%</option>
+                    <option>Boxes: 200, Height: 2000, Weight: 20, Utilisation: 80%</option>
+                    <option>Boxes: 300, Height: 3000, Weight: 30, Utilisation: 90%</option>
+                    <option>Boxes: 400, Height: 4000, Weight: 40, Utilisation: 100%</option>
+                </select>
+            </div>
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary mb-2" id="confirmBtnGet" value="Confirm">Confirm</button>
             </div>
         </div>
     </div>

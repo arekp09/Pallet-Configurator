@@ -29,7 +29,7 @@
         position.Y + (palletSize.Y * 0.025) + (boxSize.Y * 0.5),
         position.Z + (palletSize.Z * 0.5) - (boxSize.Z * 0.5)
     );
-    var areLayersOpposite = document.getElementById('areLayersOpposite').value;
+    var areLayersOpposite = document.getElementById('areLayersOpposite').checked;
 
     function init() {
         var canvas = document.getElementById('canvas');

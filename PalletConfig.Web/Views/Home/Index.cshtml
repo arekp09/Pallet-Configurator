@@ -1,4 +1,4 @@
-﻿@model PalletConfig.Library.Pallet
+﻿@model PalletConfigViewModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -6,20 +6,20 @@
 
 <div class="container">
     <div class="col-md-6">
-        <form asp-action="Confirm" asp-controller="Home">
+        <form asp-action="Index" asp-controller="Home">
             <div class="row form-border">
                 <!-- Pallet parameters -->
                 <div class="form-group">
                     <label>Input pallet size:</label>
                     <div class="row">
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletSizeX" placeholder="Width" />
+                            <input class="form-control" asp-for="PalletData.PalletSizeX" placeholder="Width" />
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletSizeY" placeholder="Height" />
+                            <input class="form-control" asp-for="PalletData.PalletSizeY" placeholder="Height" />
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletSizeZ" placeholder="Depth" />
+                            <input class="form-control" asp-for="PalletData.PalletSizeZ" placeholder="Depth" />
                         </div>
                     </div>
                 </div>
@@ -30,13 +30,13 @@
                     <label>Input box parameters:</label>
                     <div class="row">
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="BoxSizeX" placeholder="Width" />
+                            <input class="form-control" asp-for="PalletData.BoxSizeX" placeholder="Width" />
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="BoxSizeY" placeholder="Height" />
+                            <input class="form-control" asp-for="PalletData.BoxSizeY" placeholder="Height" />
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="BoxSizeZ" placeholder="Depth" />
+                            <input class="form-control" asp-for="PalletData.BoxSizeZ" placeholder="Depth" />
                         </div>
                     </div>
                     <div class="row">
@@ -44,7 +44,7 @@
                             <label>Box weight:</label>
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="BoxWeight" placeholder="Kg" />
+                            <input class="form-control" asp-for="PalletData.BoxWeight" placeholder="Kg" />
                         </div>
                     </div>
                 </div>
@@ -55,13 +55,13 @@
                     <label>Max height:</label>
                     <div class="row">
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletHeight" placeholder="Pallet height" />
+                            <input class="form-control" asp-for="PalletData.PalletHeight" placeholder="Pallet height" />
                         </div>
                     </div>
                     <label>Max weight:</label>
                     <div class="row">
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletWeight" placeholder="Pallet weight" />
+                            <input class="form-control" asp-for="PalletData.PalletWeight" placeholder="Pallet weight" />
                         </div>
                     </div>
                     <p></p>

@@ -5,7 +5,7 @@
 }
 
 <div class="container">
-    <div class="col-md-6">
+    <div class="col-md-5">
         <form asp-action="Index" asp-controller="Home">
             <div class="row form-border">
                 <!-- Pallet parameters -->
@@ -83,7 +83,7 @@
             </div>
         </form>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-7">
         <div class="row form-border">
             <!-- Display graphical presentation of pallet-->
             <label>Pallet view:</label>
@@ -100,7 +100,7 @@
                     {
                         @foreach (var option in Model.Configurations)
                         {
-                        <option id="@option.OptionName">@option.OptionName: Boxes: @option.NumberOfBoxes, Total weight: @option.TotalWeight, Total height: @option.TotalHeight, Volume: @option.Volume</option>
+                        <option id="@option.OptionName">@option.OptionName: Boxes: @option.NumberOfBoxes, Total weight: @(option.TotalWeight)kg, Total height: @(option.TotalHeight)cm, Volume: @option.Volume.ToString("#0.00%")</option>
                         }
                     }
                     catch

@@ -11,9 +11,20 @@ namespace PalletConfig.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(PalletConfigViewModel model)
+        {
+            PalletConfigViewModel palletConfig = new PalletConfigViewModel();
+
+            palletConfig.GenerateConfigurations(model.PalletData);
+
+            return View(palletConfig);
         }
 
         public IActionResult About()
@@ -39,12 +50,6 @@ namespace PalletConfig.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        [HttpPost]
-        public IActionResult Confirm(Pallet model)
-        {
-            return Content($"Pallet Size X: {model.PalletSizeX} \nBox Size X: {model.BoxSizeX}");
         }
     }
 }

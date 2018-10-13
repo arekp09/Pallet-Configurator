@@ -8,34 +8,46 @@ namespace PalletConfig.Library
     {
         // Columns: 'Z' / Rows: 'X'
         //TODO: Create new model which will store pallet configuration and logic to calculate stacking
-        public string OptionId { get; set; }
+        public string OptionName { get; set; }
         public int LayersQuantity { get; set; }
         public int RowsPerLayer { get; set; }
         public int ColumnsPerLayer { get; set; }
+        public double Volume { get; set; }
+        public int NumberOfBoxes { get; set; }
+        public double TotalWeight { get; set; }
+        public double TotalHeight { get; set; }
 
         public List<Configuration> CalculatePalletConfiguration(Pallet model)
         {
             var _configurationsList = new List<Configuration>();
-
+            _configurationsList.Add(CalculateOptionA(model));
 
             return _configurationsList;
         }
 
         public Configuration CalculateOptionA(Pallet model)
         {
-            var _optionA = new Configuration();
-            _optionA.OptionId = "OptionA";
-            _optionA.RowsPerLayer = model.PalletSizeX / model.BoxSizeX;
-            _optionA.ColumnsPerLayer = model.PalletSizeZ / model.BoxSizeZ;
+            var _option = new Configuration();
+            _option.OptionName = "Option A";
+            _option.RowsPerLayer = model.PalletSizeX / model.BoxSizeX;
+            _option.ColumnsPerLayer = model.PalletSizeZ / model.BoxSizeZ;
 
             int maxBoxesQuantity = Convert.ToInt32(model.PalletWeight / model.BoxWeight);
-            float weightPerLayer = _optionA.RowsPerLayer * _optionA.ColumnsPerLayer * model.BoxWeight;
+            double weightPerLayer = _option.RowsPerLayer * _option.ColumnsPerLayer * model.BoxWeight;
             int maxWeightLayersQuantity = Convert.ToInt32(model.PalletWeight / weightPerLayer);
             int maxHeightLayersQuantity = (model.PalletHeight - model.PalletSizeY) / model.BoxSizeY;
-            _optionA.LayersQuantity = Math.Min(maxHeightLayersQuantity, maxWeightLayersQuantity);
+            _option.LayersQuantity = Math.Min(maxHeightLayersQuantity, maxWeightLayersQuantity);
 
-            return _optionA;
+            var maxVolume = model.PalletSizeX * model.PalletSizeZ * (model.PalletHeight - model.PalletSizeY);
+            var boxVolume = model.BoxSizeX * model.BoxSizeY * model.BoxSizeZ;
+            _option.NumberOfBoxes = _option.RowsPerLayer * _option.ColumnsPerLayer * _option.LayersQuantity;
+            var actualVolume = _option.NumberOfBoxes * boxVolume;
+            _option.Volume = Convert.ToDouble(actualVolume) / Convert.ToDouble(maxVolume);
+
+            _option.TotalHeight = model.PalletSizeY + (model.BoxSizeY * _option.LayersQuantity);
+            _option.TotalWeight = _option.NumberOfBoxes * model.BoxWeight;
+
+            return _option;
         }
-
     }
 }

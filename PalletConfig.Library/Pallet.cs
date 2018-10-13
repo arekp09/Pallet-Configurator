@@ -13,9 +13,9 @@ namespace PalletConfig.Library
         public int BoxSizeX { get; set; }
         public int BoxSizeY { get; set; }
         public int BoxSizeZ { get; set; }
-        public float BoxWeight { get; set; }
+        public double BoxWeight { get; set; }
         public int PalletHeight { get; set; }
-        public float PalletWeight { get; set; }
+        public double PalletWeight { get; set; }
 
         //public Pallet inputFiguresToModel()
         //{

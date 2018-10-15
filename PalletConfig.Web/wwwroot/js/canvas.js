@@ -3,6 +3,10 @@
         return window.requestAnimationFrame;
     })();
 
+    // Get model from View
+    var selectList = document.getElementById('chooseStackingOption');
+    var selectedConfig = selectList.options[selectList.selectedIndex].value;
+
     // Input data
     var inputPalletSize = new Coordinates(100, 15, 150);
     var inputBoxSize = new Coordinates(19, 10, 14);

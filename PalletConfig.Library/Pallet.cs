@@ -16,10 +16,6 @@ namespace PalletConfig.Library
         public double BoxWeight { get; set; }
         public int PalletHeight { get; set; }
         public double PalletWeight { get; set; }
-
-        //public Pallet inputFiguresToModel()
-        //{
-
-        //}
+        public bool StackOpposite { get; set; }
     }
 }

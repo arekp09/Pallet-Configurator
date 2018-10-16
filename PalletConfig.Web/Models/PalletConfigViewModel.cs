@@ -17,10 +17,17 @@ namespace PalletConfig.Web.Models
         public List<Configuration> Configurations { get; set; }
         public Pallet PalletData { get; set; }
 
+        public void EventHandler()
+        {
+
+        }
+
         public void GenerateConfigurations(Pallet model)
         {
             var config = new Configuration();
             Configurations = config.CalculatePalletConfiguration(model);
         }
+
+
     }
 }

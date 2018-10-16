@@ -14,7 +14,9 @@ namespace PalletConfig.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            PalletConfigViewModel palletConfig = new PalletConfigViewModel();
+
+            return View(palletConfig);
         }
 
         [HttpPost]
@@ -22,7 +24,13 @@ namespace PalletConfig.Web.Controllers
         {
             PalletConfigViewModel palletConfig = new PalletConfigViewModel();
 
-            palletConfig.GenerateConfigurations(model.PalletData);
+            if(ModelState.IsValid)
+            {
+                palletConfig.GenerateConfigurations(model.PalletData);
+                return View(palletConfig);
+            }
+
+            ModelState.Clear();
 
             return View(palletConfig);
         }

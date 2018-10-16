@@ -2,17 +2,10 @@
     window.requestAnimationFrame = (function () {
         return window.requestAnimationFrame;
     })();
-
-    // Get model from View
-    var selectList = document.getElementById('chooseStackingOption');
-    var selectedConfig = selectList.options[selectList.selectedIndex].value;
-
+    
     // Input data
-    var inputPalletSize = new Coordinates(100, 15, 150);
-    var inputBoxSize = new Coordinates(19, 10, 14);
-    var inputRowsPerLayer = 5;
-    var inputColumnsPerLayer = 10;
-    var inputLayersQuantity = 7;
+    var inputPalletSize, inputBoxSize;
+    var inputRowsPerLayer, inputColumnsPerLayer, inputLayersQuantity;
 
     // Helpers
     var materialPallet = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('images/palletTexture.jpg') });
@@ -183,6 +176,21 @@
         scene.add(meshBox);
         meshTop.add(meshBox);
         meshBox.position.set(posX, posY, posZ);
+    }
+
+    function onSelectChange() {
+        // Get model from View
+        var selectList = document.getElementById('chooseStackingOption');
+        var selectedConfig = selectList.options[selectList.selectedIndex].value;
+        inputPalletSize = new Coordinates(100, 15, 150);
+        inputBoxSize = new Coordinates(19, 10, 14);
+        inputRowsPerLayer = 5;
+        inputColumnsPerLayer = 10;
+        inputLayersQuantity = 7;
+
+        alert("1!");
+        alert(Model.Configurations.OptionName[selectConfig]);
+
     }
 
     init();

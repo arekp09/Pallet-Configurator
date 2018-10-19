@@ -10,6 +10,7 @@ namespace PalletConfig.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
             PalletConfigViewModel palletConfig = new PalletConfigViewModel();
@@ -24,8 +25,8 @@ namespace PalletConfig.Web.Controllers
             if (ModelState.IsValid)
             {
                 palletConfig.EventHandler();
+                ModelState.Clear();
             }
-            ModelState.Clear();
 
             return View(palletConfig);
         }

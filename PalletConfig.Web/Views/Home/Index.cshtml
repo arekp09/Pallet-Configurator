@@ -1,10 +1,11 @@
-﻿@using PalletConfig.Library;
-@model PalletConfigViewModel
+﻿@model PalletConfigViewModel
 
 @{
 
     ViewData["Title"] = "Home Page";
 }
+
+
 
 <div class="container">
     <div class="col-md-5">
@@ -12,20 +13,26 @@
         {
             @Html.AntiForgeryToken()
 
+            <!--Hidden Start-->
+            @Html.HiddenFor(m => m.EventCommand)
+            <!--Hidden End-->
+
             <div class="row form-border">
                 <!-- Pallet parameters -->
                 <div class="form-group">
                     <label>Input pallet size:</label>
                     <div class="row">
                         <div class="col-xs-4">
-                            @Html.TextBoxFor(m => m.PalletData.PalletSizeX, new { placeholder = "Width", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.PalletData.PalletSizeX, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.PalletData.PalletSizeX, "{0:#.#}", new { placeholder = "Width (cm)", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PalletData.PalletSizeX, "", new { @class = "bg-danger text-danger" })
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.PalletSizeY" placeholder="Height (cm)" required />
+                            @Html.TextBoxFor(m => m.PalletData.PalletSizeY, "{0:#.#}", new { placeholder = "Height (cm)", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PalletData.PalletSizeY)
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.PalletSizeZ" placeholder="Depth (cm)" required />
+                            @Html.TextBoxFor(m => m.PalletData.PalletSizeZ, "{0:#.#}", new { placeholder = "Depth (cm)", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PalletData.PalletSizeZ)
                         </div>
                     </div>
                 </div>
@@ -36,13 +43,16 @@
                     <label>Input box parameters:</label>
                     <div class="row">
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.BoxSizeX" placeholder="Width (cm)" required />
+                            @Html.TextBoxFor(m => m.PalletData.BoxSizeX, "{0:#.#}", new { placeholder = "Width (cm)", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PalletData.BoxSizeX, "", new { @class = "bg-danger text-danger" })
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.BoxSizeY" placeholder="Height (cm)" required />
+                            @Html.TextBoxFor(m => m.PalletData.BoxSizeY, "{0:#.#}", new { placeholder = "Height (cm)", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PalletData.BoxSizeY)
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.BoxSizeZ" placeholder="Depth (cm)" required />
+                            @Html.TextBoxFor(m => m.PalletData.BoxSizeZ, "{0:#.#}", new { placeholder = "Depth (cm)", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PalletData.BoxSizeZ)
                         </div>
                     </div>
                     <div class="row">
@@ -50,7 +60,8 @@
                             <label>Box weight:</label>
                         </div>
                         <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.BoxWeight" placeholder="Mass (kg)" required />
+                            @Html.TextBoxFor(m => m.PalletData.BoxWeight, "{0:#.#}", new { placeholder = "Mass (kg)", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PalletData.BoxWeight)
                         </div>
                     </div>
                 </div>
@@ -61,20 +72,22 @@
                     <label>Max height:</label>
                     <div class="row">
                         <div class="col-xs-6">
-                            <input class="form-control" asp-for="PalletData.PalletHeight" placeholder="Pallet height (cm)" required />
+                            @Html.TextBoxFor(m => m.PalletData.PalletHeight, "{0:#.#}", new { placeholder = "Pallet height (cm)", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PalletData.PalletHeight)
                         </div>
                     </div>
                     <label>Max weight:</label>
                     <div class="row">
                         <div class="col-xs-6">
-                            <input class="form-control" asp-for="PalletData.PalletWeight" placeholder="Pallet weight (kg)" required />
+                            @Html.TextBoxFor(m => m.PalletData.PalletWeight, "{0:#.#}", new { placeholder = "Pallet weight (kg)", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PalletData.PalletWeight, "", new { @class = "bg-danger text-danger" })
                         </div>
                     </div>
                     <p></p>
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="checkbox-inline">
-                                <input type="checkbox" asp-for="PalletData.StackOpposite" id="areLayersOpposite"> Stack layers on opposite side
+                                @Html.CheckBoxFor(m => m.PalletData.StackOpposite, new { @class = "checkbox", @id = "stackOpposite" }) Stack layers on opposite side
                             </div>
                         </div>
                     </div>
@@ -83,90 +96,11 @@
             <div class="row form-border">
                 <!-- Best option calculation -->
                 <div class="form-group text-right">
-                    <input type="submit" class="btn btn-primary mb-2" id="confirmBtnPost" value="Confirm" />
-                    <input type="submit" class="btn btn-danger mb-2" id="resetBtn" value="Reset" />
+                    <button class="btn btn-primary mb-2" id="confirmBtn" data-pdsa-action="confirm">Confirm</button>
+                    <button class="btn btn-danger mb-2" id="resetBtn" data-pdsa-action="reset">Reset</button>
                 </div>
             </div>
         }
-        @*<form asp-action="Index" asp-controller="Home" id="inputForm">
-            <div class="row form-border">
-                <!-- Pallet parameters -->
-                <div class="form-group">
-                    <label>Input pallet size:</label>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            @Html.TextBoxFor(m => m.PalletData.PalletSizeX, new { placeholder = "Width", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.PalletData.PalletSizeX, "", new { @class = "text-danger" })
-
-                            <input class="form-control" asp-for="PalletData.PalletSizeX" placeholder="Width (cm)" required />
-                        </div>
-                        <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.PalletSizeY" placeholder="Height (cm)" required />
-                        </div>
-                        <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.PalletSizeZ" placeholder="Depth (cm)" required />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-border">
-                <!-- Box parameters -->
-                <div class="form-group">
-                    <label>Input box parameters:</label>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.BoxSizeX" placeholder="Width (cm)" required />
-                        </div>
-                        <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.BoxSizeY" placeholder="Height (cm)" required />
-                        </div>
-                        <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.BoxSizeZ" placeholder="Depth (cm)" required />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label>Box weight:</label>
-                        </div>
-                        <div class="col-xs-4">
-                            <input class="form-control" asp-for="PalletData.BoxWeight" placeholder="Mass (kg)" required />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-border">
-                <!-- Stacking requirements -->
-                <div class="form-group">
-                    <label>Max height:</label>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <input class="form-control" asp-for="PalletData.PalletHeight" placeholder="Pallet height (cm)" required />
-                        </div>
-                    </div>
-                    <label>Max weight:</label>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <input class="form-control" asp-for="PalletData.PalletWeight" placeholder="Pallet weight (kg)" required />
-                        </div>
-                    </div>
-                    <p></p>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="checkbox-inline">
-                                <input type="checkbox" asp-for="PalletData.StackOpposite" id="areLayersOpposite"> Stack layers on opposite side
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-border">
-                <!-- Best option calculation -->
-                <div class="form-group text-right">
-                    <button type="submit" class="btn btn-primary mb-2" id="confirmBtnPost" value="Confirm">Confirm</button>
-                    <button type="submit" class="btn btn-danger mb-2" id="resetBtn" formmethod="get">Reset</button>
-                </div>
-            </div>
-        </form>*@
     </div>
     <div class="col-md-7">
         <div class="row form-border">

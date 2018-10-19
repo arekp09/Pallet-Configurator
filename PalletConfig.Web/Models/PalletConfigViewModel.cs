@@ -1,5 +1,4 @@
-﻿using PalletConfig.Library;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,24 +9,47 @@ namespace PalletConfig.Web.Models
     {
         public PalletConfigViewModel()
         {
-            Configurations = new List<Configuration>();
-            PalletData = new Pallet();
+            Start();
         }
 
-        public List<Configuration> Configurations { get; set; }
-        public Pallet PalletData { get; set; }
+        public List<ConfigurationModel> Configurations { get; set; }
+        public PalletModel PalletData { get; set; }
+        public string EventCommand { get; set; }
+        ConfigurationModel configurationModel;
 
         public void EventHandler()
         {
+            switch (EventCommand.ToLower())
+            {
+                case "start":
+                    Start();
+                    break;
 
+                case "confirm":
+                    GenerateConfigurations();
+                    break;
+
+                case "reset":
+                    PalletData = new PalletModel();
+                    configurationModel = new ConfigurationModel();
+                    break;
+
+                default:
+                    break;
+            }
         }
 
-        public void GenerateConfigurations(Pallet model)
+        public void Start()
         {
-            var config = new Configuration();
-            Configurations = config.CalculatePalletConfiguration(model);
+            Configurations = new List<ConfigurationModel>();
+            PalletData = new PalletModel();
+            configurationModel = new ConfigurationModel();
+            EventCommand = "start";
         }
 
-
+        public void GenerateConfigurations()
+        {
+            Configurations = configurationModel.CalculatePalletConfiguration(PalletData);
+        }
     }
 }

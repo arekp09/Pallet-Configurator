@@ -4,32 +4,27 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PalletConfig.Library;
 using PalletConfig.Web.Models;
 
 namespace PalletConfig.Web.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpGet]
         public IActionResult Index()
         {
             PalletConfigViewModel palletConfig = new PalletConfigViewModel();
+            palletConfig.EventHandler();
 
             return View(palletConfig);
         }
 
         [HttpPost]
-        public IActionResult Index(PalletConfigViewModel model)
+        public IActionResult Index(PalletConfigViewModel palletConfig)
         {
-            PalletConfigViewModel palletConfig = new PalletConfigViewModel();
-
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                palletConfig.GenerateConfigurations(model.PalletData);
-                return View(palletConfig);
+                palletConfig.EventHandler();
             }
-
             ModelState.Clear();
 
             return View(palletConfig);

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PalletConfig.Library
+namespace PalletConfig.Web.Models
 {
-    public class Configuration
+    public class ConfigurationModel
     {
         // Columns: 'Z' / Rows: 'X'
         //TODO: Create new model which will store pallet configuration and logic to calculate stacking
@@ -17,17 +17,17 @@ namespace PalletConfig.Library
         public double TotalWeight { get; set; }
         public double TotalHeight { get; set; }
 
-        public List<Configuration> CalculatePalletConfiguration(Pallet model)
+        public List<ConfigurationModel> CalculatePalletConfiguration(PalletModel model)
         {
-            var _configurationsList = new List<Configuration>();
+            var _configurationsList = new List<ConfigurationModel>();
             _configurationsList.Add(CalculateOptionA(model));
 
             return _configurationsList;
         }
 
-        public Configuration CalculateOptionA(Pallet model)
+        public ConfigurationModel CalculateOptionA(PalletModel model)
         {
-            var _option = new Configuration();
+            var _option = new ConfigurationModel();
             _option.OptionName = "Option A";
             _option.RowsPerLayer = model.PalletSizeX / model.BoxSizeX;
             _option.ColumnsPerLayer = model.PalletSizeZ / model.BoxSizeZ;

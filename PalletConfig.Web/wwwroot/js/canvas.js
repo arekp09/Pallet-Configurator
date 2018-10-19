@@ -7,6 +7,13 @@
     var inputPalletSize, inputBoxSize;
     var inputRowsPerLayer, inputColumnsPerLayer, inputLayersQuantity;
 
+    inputPalletSize = new Coordinates(100, 15, 150);
+    inputBoxSize = new Coordinates(19, 10, 14);
+    inputRowsPerLayer = 5;
+    inputColumnsPerLayer = 10;
+    inputLayersQuantity = 7;
+
+
     // Helpers
     var materialPallet = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('images/palletTexture.jpg') });
     var materialBox = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('images/boxTexture.jpg'), color: 0xb38600 });
@@ -26,7 +33,7 @@
         position.Y + (palletSize.Y * 0.025) + (boxSize.Y * 0.5),
         position.Z + (palletSize.Z * 0.5) - (boxSize.Z * 0.5)
     );
-    var areLayersOpposite = document.getElementById('areLayersOpposite').checked;
+    var areLayersOpposite = document.getElementById('stackOpposite').checked;
 
     function init() {
         var canvas = document.getElementById('canvas');
@@ -54,7 +61,7 @@
 
         // Create objects
         createPallet();
-        createAllBoxes(inputRowsPerLayer, inputColumnsPerLayer, zeroPosition, boxSize, inputLayersQuantity, maxPosition);
+        createAllBoxes(inputRowsPerLayer, inputColumnsPerLayer, zeroPosition, boxSize, inputLayersQuantity, maxPosition, areLayersOpposite);
 
         // Controls
         controls = new THREE.OrbitControls(camera, canvas);
@@ -123,7 +130,7 @@
         return _inputSize;
     }
 
-    function createAllBoxes(_numberRows, _numberColumns, _zeroPosition, _boxSize, _layersQuantity, _maxPosition) {
+    function createAllBoxes(_numberRows, _numberColumns, _zeroPosition, _boxSize, _layersQuantity, _maxPosition, _areLayersOpposite) {
         var posX = _zeroPosition.X;
         var posY = _zeroPosition.Y;
         var posZ = _zeroPosition.Z;
@@ -136,7 +143,7 @@
             posY += _boxSize.Y;
 
             // Check if user want to stack layers opposite
-            if (areLayersOpposite == true) {
+            if (_areLayersOpposite == true) {
                 if (changeSide == true) {
                     changeSide = false;
                 }
@@ -182,14 +189,6 @@
         // Get model from View
         var selectList = document.getElementById('chooseStackingOption');
         var selectedConfig = selectList.options[selectList.selectedIndex].value;
-        inputPalletSize = new Coordinates(100, 15, 150);
-        inputBoxSize = new Coordinates(19, 10, 14);
-        inputRowsPerLayer = 5;
-        inputColumnsPerLayer = 10;
-        inputLayersQuantity = 7;
-
-        alert("1!");
-        alert(Model.Configurations.OptionName[selectConfig]);
 
     }
 

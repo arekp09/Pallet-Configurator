@@ -1,17 +1,27 @@
-﻿document.addEventListener('DOMContentLoaded', function (event) {
+﻿//document.addEventListener('DOMContentLoaded', function (event) {
+//    window.requestAnimationFrame = (function () {
+//        return window.requestAnimationFrame;
+//    })();
+
+// Input data
+var inputPalletSize, inputBoxSize;
+var inputRowsPerLayer, inputColumnsPerLayer, inputLayersQuantity;
+
+function Coordinates(X, Y, Z) {
+    this.X = X;
+    this.Y = Y;
+    this.Z = Z;
+    this.area = function () {
+        return this.X * this.Y * this.Z;
+    }
+}
+
+function draw3D() {
     window.requestAnimationFrame = (function () {
         return window.requestAnimationFrame;
     })();
-    
-    // Input data
-    var inputPalletSize, inputBoxSize;
-    var inputRowsPerLayer, inputColumnsPerLayer, inputLayersQuantity;
 
-    inputPalletSize = new Coordinates(100, 15, 150);
-    inputBoxSize = new Coordinates(19, 10, 14);
-    inputRowsPerLayer = 5;
-    inputColumnsPerLayer = 10;
-    inputLayersQuantity = 7;
+
 
 
     // Helpers
@@ -42,7 +52,7 @@
 
         // Set camera
         camera = new THREE.PerspectiveCamera(70, canvasWidth / canvasHeight, 0.01, 100);
-        camera.position.set(1, 1, 2);
+        camera.position.set(1, 1, 3);
 
         // Set scene
         scene = new THREE.Scene();
@@ -65,7 +75,7 @@
 
         // Controls
         controls = new THREE.OrbitControls(camera, canvas);
-        controls.target = new THREE.Vector3(0, 0.3, 0);
+        controls.target = new THREE.Vector3(0, 0.5, 0);
         controls.update();
 
         // Rendering
@@ -77,15 +87,6 @@
     function animate() {
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
-    }
-
-    function Coordinates(X, Y, Z) {
-        this.X = X;
-        this.Y = Y;
-        this.Z = Z;
-        this.area = function () {
-            return this.X * this.Y * this.Z;
-        }
     }
 
     function createPallet() {
@@ -185,13 +186,18 @@
         meshBox.position.set(posX, posY, posZ);
     }
 
-    function onSelectChange() {
-        // Get model from View
-        var selectList = document.getElementById('chooseStackingOption');
-        var selectedConfig = selectList.options[selectList.selectedIndex].value;
+    //function onSelectChange() {
+    //    // Get model from View
+    //    var selectList = document.getElementById('chooseStackingOption');
+    //    var selectedConfig = selectList.options[selectList.selectedIndex].value;
 
-    }
+    //    inputPalletSize = new Coordinates(100, 15, 150);
+    //    inputBoxSize = new Coordinates(19, 10, 14);
+    //    inputRowsPerLayer = 5;
+    //    inputColumnsPerLayer = 10;
+    //    inputLayersQuantity = 7;
+    //}
 
     init();
     animate();
-});
+}//);

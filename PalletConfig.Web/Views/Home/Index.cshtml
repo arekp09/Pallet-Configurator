@@ -1,4 +1,6 @@
-﻿@model PalletConfigViewModel
+﻿@using Newtonsoft.Json;
+
+@model PalletConfigViewModel
 
 @{
 
@@ -15,6 +17,9 @@
 
             <!--Hidden Start-->
             @Html.HiddenFor(m => m.EventCommand)
+            @Html.HiddenFor(m => m.Configurations)
+            @Html.Hidden(Model.JsonConfiguration = JsonConvert.SerializeObject(Model.Configurations))
+
             <!--Hidden End-->
 
             <div class="row form-border">
@@ -114,7 +119,7 @@
             <!-- Best option calculation -->
             <div class="form-group">
                 <label for="chooseStackingOption">Select stacking option</label>
-                <select multiple class="form-control" id="chooseStackingOption" onchange="onSelectChange()">
+                <select multiple class="form-control" id="chooseStackingOption">
                     @try
                     {
                         var i = 0;
@@ -131,7 +136,7 @@
                 </select>
             </div>
             <div class="form-group text-right">
-                <button type="submit" class="btn btn-primary mb-2" id="confirmBtnGet" value="Confirm">Confirm</button>
+                <button class="btn btn-primary mb-2" id="drawBtn">Confirm</button>
             </div>
         </div>
     </div>
@@ -142,4 +147,9 @@
     <script src="~/js/OrbitControls.js"></script>
     <script src="~/js/canvas.js"></script>
     <script src="~/js/actionManagement.js"></script>
+
+    <script>
+        var jsonConfig = @Html.Raw(JsonConvert.SerializeObject(Model.Configurations))
+        var jsonPallet = @Html.Raw(JsonConvert.SerializeObject(Model.PalletData))
+    </script>
 }

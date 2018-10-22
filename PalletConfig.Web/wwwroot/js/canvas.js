@@ -20,11 +20,8 @@ function draw3D() {
     window.requestAnimationFrame = (function () {
         return window.requestAnimationFrame;
     })();
-
-
-
-
-    // Helpers
+    
+    // Helper varibles
     var materialPallet = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('images/palletTexture.jpg') });
     var materialBox = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('images/boxTexture.jpg'), color: 0xb38600 });
     var inputSizeMax = Math.max(inputPalletSize.X, inputPalletSize.Y, inputPalletSize.Z)

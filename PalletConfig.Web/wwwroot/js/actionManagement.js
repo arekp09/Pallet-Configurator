@@ -7,10 +7,10 @@
 
     $("#drawBtn").on("click", function (e) {
         e.preventDefault();
+        // Selected option
         var selectId = $("#chooseStackingOption option:selected").val();
 
-        alert(jsonConfig[selectId].OptionName);
-
+        // Apply input data to draw 3D model
         inputPalletSize = new Coordinates(jsonPallet.PalletSizeX, jsonPallet.PalletSizeY, jsonPallet.PalletSizeZ);
         inputBoxSize = new Coordinates(jsonPallet.BoxSizeX, jsonPallet.BoxSizeY, jsonPallet.BoxSizeZ);
         inputRowsPerLayer = jsonConfig[selectId].RowsPerLayer;

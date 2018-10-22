@@ -11,13 +11,16 @@ namespace PalletConfig.Web.Models
         {
             Start();
         }
-
+        
         public List<ConfigurationModel> Configurations { get; set; }
         public PalletModel PalletData { get; set; }
         public string EventCommand { get; set; }
         public string JsonConfiguration { get; set; }
         ConfigurationModel configurationModel;
 
+        /// <summary>
+        /// Responsible for managing events in application, switch between different actions.
+        /// </summary>
         public void EventHandler()
         {
             switch (EventCommand.ToLower())

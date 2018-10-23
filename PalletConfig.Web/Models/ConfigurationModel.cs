@@ -64,11 +64,14 @@ namespace PalletConfig.Web.Models
             // Option Name
             output.OptionName = _stackingOption.Name;
 
+
+
             //Calculate rows per layer
             output.RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeX;
             output.ColumnsPerLayer = output.PalletSize.Z / _palletModel.BoxSizeZ;
 
-            int maxBoxesQuantity = Convert.ToInt32(_palletModel.PalletWeight / _palletModel.BoxWeight);
+
+
             double weightPerLayer = output.RowsPerLayer * output.ColumnsPerLayer * _palletModel.BoxWeight;
             int maxWeightLayersQuantity = Convert.ToInt32(_palletModel.PalletWeight / weightPerLayer);
             int maxHeightLayersQuantity = (_palletModel.PalletHeight - output.PalletSize.Y) / _palletModel.BoxSizeY;

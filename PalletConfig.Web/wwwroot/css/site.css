@@ -35,3 +35,7 @@ body {
         display: none;
     }
 }
+
+.extra-margin{
+    margin: 10px 0px;
+}

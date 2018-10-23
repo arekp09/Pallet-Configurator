@@ -1,9 +1,4 @@
-﻿//document.addEventListener('DOMContentLoaded', function (event) {
-//    window.requestAnimationFrame = (function () {
-//        return window.requestAnimationFrame;
-//    })();
-
-// Input data
+﻿// Input data
 var inputPalletSize, inputBoxSize;
 var inputRowsPerLayer, inputColumnsPerLayer, inputLayersQuantity;
 
@@ -43,7 +38,7 @@ function draw3D() {
     var areLayersOpposite = document.getElementById('stackOpposite').checked;
 
     function init() {
-        var canvas = document.getElementById('canvas');
+        var canvas = document.getElementById('drawArea');
         var canvasWidth = canvas.getAttribute('width');
         var canvasHeight = canvas.getAttribute('height');
 
@@ -183,18 +178,6 @@ function draw3D() {
         meshBox.position.set(posX, posY, posZ);
     }
 
-    //function onSelectChange() {
-    //    // Get model from View
-    //    var selectList = document.getElementById('chooseStackingOption');
-    //    var selectedConfig = selectList.options[selectList.selectedIndex].value;
-
-    //    inputPalletSize = new Coordinates(100, 15, 150);
-    //    inputBoxSize = new Coordinates(19, 10, 14);
-    //    inputRowsPerLayer = 5;
-    //    inputColumnsPerLayer = 10;
-    //    inputLayersQuantity = 7;
-    //}
-
     init();
     animate();
-}//);
+}

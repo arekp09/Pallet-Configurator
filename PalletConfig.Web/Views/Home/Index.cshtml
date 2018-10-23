@@ -111,7 +111,7 @@
             <!-- Display graphical presentation of pallet-->
             <label>Pallet view:</label>
             <div>
-                <div class="" id="canvas" width="400" height="300"></div>
+                <div class="" id="drawArea" width="400" height="300"></div>
             </div>
         </div>
         <div class="row form-border">
@@ -149,6 +149,5 @@
 
     <script>
         var jsonConfig = @Html.Raw(JsonConvert.SerializeObject(Model.Configurations))
-        var jsonPallet = @Html.Raw(JsonConvert.SerializeObject(Model.PalletData))
     </script>
 }

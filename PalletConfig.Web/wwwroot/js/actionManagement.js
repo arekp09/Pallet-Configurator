@@ -7,16 +7,24 @@
 
     $("#drawBtn").on("click", function (e) {
         e.preventDefault();
+
+        // Clear canvas div
+        //$("#canvas").empty();
+
         // Selected option
         var selectId = $("#chooseStackingOption option:selected").val();
 
         // Apply input data to draw 3D model
-        inputPalletSize = new Coordinates(jsonPallet.PalletSizeX, jsonPallet.PalletSizeY, jsonPallet.PalletSizeZ);
-        inputBoxSize = new Coordinates(jsonPallet.BoxSizeX, jsonPallet.BoxSizeY, jsonPallet.BoxSizeZ);
+        inputPalletSize = new Coordinates(jsonConfig[selectId].PalletSize.X, jsonConfig[selectId].PalletSize.Y, jsonConfig[selectId].PalletSize.Z);
+        inputBoxSize = new Coordinates(jsonConfig[selectId].BoxSize.X, jsonConfig[selectId].BoxSize.Y, jsonConfig[selectId].BoxSize.Z);
         inputRowsPerLayer = jsonConfig[selectId].RowsPerLayer;
         inputColumnsPerLayer = jsonConfig[selectId].ColumnsPerLayer;
         inputLayersQuantity = jsonConfig[selectId].LayersQuantity;
 
+        // Clear canvas div
+        $("#drawArea").empty();
+
+        // Draw 3D model of pallet
         draw3D();
     });
 });

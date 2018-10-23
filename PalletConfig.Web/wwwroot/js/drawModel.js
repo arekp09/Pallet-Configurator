@@ -63,7 +63,7 @@ function draw3D() {
 
         // Create objects
         createPallet();
-        createAllBoxes(inputRowsPerLayer, inputColumnsPerLayer, zeroPosition, boxSize, inputLayersQuantity, maxPosition, areLayersOpposite);
+        generateAllLayers(inputRowsPerLayer, inputColumnsPerLayer, zeroPosition, boxSize, inputLayersQuantity, maxPosition, areLayersOpposite);
 
         // Controls
         controls = new THREE.OrbitControls(camera, canvas);
@@ -123,14 +123,18 @@ function draw3D() {
         return _inputSize;
     }
 
-    function createAllBoxes(_numberRows, _numberColumns, _zeroPosition, _boxSize, _layersQuantity, _maxPosition, _areLayersOpposite) {
+    function generateAllLayers(_numberRows, _numberColumns, _zeroPosition, _boxSize, _layersQuantity, _maxPosition, _areLayersOpposite) {
         var posX = _zeroPosition.X;
         var posY = _zeroPosition.Y;
         var posZ = _zeroPosition.Z;
         var changeSide = false;
         
         for (var i = 0; i < _layersQuantity; i++) {
+            // TODO: Once logic sorted, adjust code to be able to create Standard and Rotated part of layer!
+            // Generate Standard part
             generateLayer(_numberRows, _numberColumns, new Coordinates(X = posX, Y = posY, Z = posZ), _boxSize, changeSide);
+            // Generate Rotated part
+            //generateLayer(_numberRows, _numberColumns, new Coordinates(X = posX, Y = posY, Z = posZ), _boxSize, changeSide);
 
             // Move position up to another layer
             posY += _boxSize.Y;

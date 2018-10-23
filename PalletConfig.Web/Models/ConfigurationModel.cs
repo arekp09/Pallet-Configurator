@@ -10,8 +10,8 @@ namespace PalletConfig.Web.Models
         //TODO: Create new model which will store pallet configuration and logic to calculate stacking
         public string OptionName { get; set; }
         public int LayersQuantity { get; set; }
-        public int RowsPerLayer { get; set; }
-        public int ColumnsPerLayer { get; set; }
+        public LayerModel Standard { get; set; }
+        public LayerModel Rotated { get; set; }
         public double Volume { get; set; }
         public int NumberOfBoxes { get; set; }
         public double TotalWeight { get; set; }
@@ -64,13 +64,22 @@ namespace PalletConfig.Web.Models
             // Option Name
             output.OptionName = _stackingOption.Name;
 
+            //Calculate max possible rows and collumns
+            var maxRows = output.PalletSize.X / _palletModel.BoxSizeX;
+            var maxColumns = output.PalletSize.Z / _palletModel.BoxSizeZ;
 
+            //Calculate Standard Layer
+            //TODO: Need to distinguish between round up and round down!
+            var standardPalletZ = Convert.ToInt32(Convert.ToDouble(output.PalletSize.Z) * (Convert.ToDouble(maxColumns) * _stackingOption.Rotation));
+            output.Standard.RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeX;
+            output.Standard.ColumnsPerLayer = standardPalletZ / _palletModel.BoxSizeZ;
 
-            //Calculate rows per layer
-            output.RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeX;
-            output.ColumnsPerLayer = output.PalletSize.Z / _palletModel.BoxSizeZ;
+            //Calculate Rotated Layer
+            var rotatedPalletZ = output.PalletSize.Z - standardPalletZ;
+            output.Rotated.RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeZ; //take Z from Box as it's rotated
+            output.Rotated.ColumnsPerLayer = rotatedPalletZ / _palletModel.BoxSizeX; //take X from Box as it's rotated
 
-
+            // TODO: Update below to work with new parameters
 
             double weightPerLayer = output.RowsPerLayer * output.ColumnsPerLayer * _palletModel.BoxWeight;
             int maxWeightLayersQuantity = Convert.ToInt32(_palletModel.PalletWeight / weightPerLayer);

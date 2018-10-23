@@ -8,9 +8,6 @@
     $("#drawBtn").on("click", function (e) {
         e.preventDefault();
 
-        // Clear canvas div
-        //$("#canvas").empty();
-
         // Selected option
         var selectId = $("#chooseStackingOption option:selected").val();
 

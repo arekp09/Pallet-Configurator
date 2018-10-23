@@ -18,7 +18,7 @@ namespace PalletConfig.Tests
         {
             var config = new ConfigurationModel();
 
-            var actual = config.CalculateOptionA(testModel);
+            var actual = config.CalculateOption(testModel);
 
             Assert.Equal(8, actual.ColumnsPerLayer);
             Assert.Equal(7, actual.RowsPerLayer);

@@ -56,16 +56,22 @@ namespace PalletConfig.Web.Models
 
             // Calculate Standard Layer
             //TODO: Need to distinguish between round up and round down!
-            var standardPalletZ = Convert.ToInt32(Convert.ToDouble(output.PalletSize.Z) * (Convert.ToDouble(maxColumns) * _stackingOption.Rotation));
-            output.Standard.RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeX;
-            output.Standard.ColumnsPerLayer = standardPalletZ / _palletModel.BoxSizeZ;
+            double standardPalletZ = (maxColumns * _stackingOption.Rotation) * output.BoxSize.Z;
+            output.Standard = new LayerModel
+            {
+                RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeX,
+                ColumnsPerLayer = Convert.ToInt32(standardPalletZ / _palletModel.BoxSizeZ)
+            };
             
 
             // Calculate Rotated Layer
             var rotatedPalletZ = output.PalletSize.Z - standardPalletZ;
-            output.Rotated.RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeZ; //take Z from Box as it's rotated
-            output.Rotated.ColumnsPerLayer = rotatedPalletZ / _palletModel.BoxSizeX; //take X from Box as it's rotated
-
+            output.Rotated = new LayerModel
+            {
+                RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeZ, //take Z from Box as it's rotated
+                ColumnsPerLayer = Convert.ToInt32(rotatedPalletZ / _palletModel.BoxSizeX) //take X from Box as it's rotated
+            };
+            
             // TODO: Update below to work with new parameters
 
             int boxesPerLayer = ( output.Standard.RowsPerLayer * output.Standard.ColumnsPerLayer ) 

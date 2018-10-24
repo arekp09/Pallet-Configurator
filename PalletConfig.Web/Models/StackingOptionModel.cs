@@ -13,7 +13,7 @@ namespace PalletConfig.Web.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Procentage of boxes in single layer that will be rotated
+        /// Procentage of boxes in single layer that will NOT be rotated
         /// </summary>
         public double Rotation { get; set; }
 

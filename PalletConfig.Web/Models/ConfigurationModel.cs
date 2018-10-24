@@ -19,25 +19,11 @@ namespace PalletConfig.Web.Models
         public CoordinatesModel PalletSize { get; set; }
         public CoordinatesModel BoxSize { get; set; }
 
-        private List<StackingOptionModel> GenerateListOfStackingOptions()
-        {
-            var _list = new List<StackingOptionModel>();
-
-            _list.Add(new StackingOptionModel {Name = "Option A", Rotation = 0, Mode = "Round"});
-            _list.Add(new StackingOptionModel {Name = "Option B", Rotation = 1, Mode = "Round"});
-            _list.Add(new StackingOptionModel {Name = "Option C", Rotation = 0.01, Mode = "RoundUp"});
-            _list.Add(new StackingOptionModel {Name = "Option D", Rotation = 0.99, Mode = "RoundDown"});
-            _list.Add(new StackingOptionModel {Name = "Option E", Rotation = 0.5, Mode = "Round"});
-            _list.Add(new StackingOptionModel {Name = "Option F", Rotation = 0.5, Mode = "Round"});
-            
-            return _list;
-        }
-
         public List<ConfigurationModel> CalculatePalletConfiguration(PalletModel _palletModel)
         {
             var output = new List<ConfigurationModel>();
 
-            foreach (var option in GenerateListOfStackingOptions())
+            foreach (var option in StackingOptionModel.GenerateListOfStackingOptions())
             {
                 output.Add(CalculateOption(_palletModel, option));
             }

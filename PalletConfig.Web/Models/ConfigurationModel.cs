@@ -31,14 +31,7 @@ namespace PalletConfig.Web.Models
             return output;
         }
 
-        // TODO: Re-factor to generic calculation method (input: model, calculationOption; output: ConfigurationModel)
-        // Need to split in 2 areas(Standard and Rotated), calculate load
-
-        /// <summary>
-        /// Calculate Option A - setup as per user input (boxes not turned)
-        /// </summary>
-        /// <param name="_palletModel">Model received from user input</param>
-        /// <returns></returns>
+        // TODO: Re-factor
         public ConfigurationModel CalculateOption(PalletModel _palletModel, StackingOptionModel _stackingOption)
         {
             var output = new ConfigurationModel();
@@ -55,25 +48,14 @@ namespace PalletConfig.Web.Models
             var maxColumns = output.PalletSize.Z / _palletModel.BoxSizeZ;
 
             // Calculate Standard Layer
-            //TODO: Need to distinguish between round up and round down!
             double standardPalletZ = (maxColumns * _stackingOption.Rotation) * output.BoxSize.Z;
-            output.Standard = new LayerModel
-            {
-                RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeX,
-                ColumnsPerLayer = Convert.ToInt32(standardPalletZ / _palletModel.BoxSizeZ)
-            };
+            output.Standard = CalculateLayer(output.PalletSize.X, _palletModel.BoxSizeX, standardPalletZ, _palletModel.BoxSizeZ, _stackingOption.Mode);
             
-
             // Calculate Rotated Layer
             var rotatedPalletZ = output.PalletSize.Z - standardPalletZ;
-            output.Rotated = new LayerModel
-            {
-                RowsPerLayer = output.PalletSize.X / _palletModel.BoxSizeZ, //take Z from Box as it's rotated
-                ColumnsPerLayer = Convert.ToInt32(rotatedPalletZ / _palletModel.BoxSizeX) //take X from Box as it's rotated
-            };
+            output.Rotated = CalculateLayer(output.PalletSize.X, _palletModel.BoxSizeZ, rotatedPalletZ, _palletModel.BoxSizeX, _stackingOption.Mode); 
             
-            // TODO: Update below to work with new parameters
-
+            // Calculate boxes per layer
             int boxesPerLayer = ( output.Standard.RowsPerLayer * output.Standard.ColumnsPerLayer ) 
                                 + ( output.Rotated.RowsPerLayer * output.Rotated.ColumnsPerLayer);
 
@@ -98,8 +80,32 @@ namespace PalletConfig.Web.Models
 
             return output;
         }
-        
-        //TODO: Add logic to swap X and Y when needed
+
+        /// <summary>
+        /// Calculate layer setup (rows and columns) form given parameters
+        /// </summary>
+        /// <param name="palletSizeX">Width of pallet</param>
+        /// <param name="boxSizeX">Width of box</param>
+        /// <param name="palletSizeZ">Depth of pallet</param>
+        /// <param name="boxSizeZ">Depth of box</param>
+        /// <param name="roundingOption">Options of rounding a result to choose: Round, RoundUp or RoundDown</param>
+        /// <returns></returns>
+        private LayerModel CalculateLayer(double palletSizeX, double boxSizeX, double palletSizeZ, double boxSizeZ, string roundingOption)
+        {
+            int _columnsPerLayer;
+
+            if (roundingOption == "RoundUp") _columnsPerLayer = Convert.ToInt32(Math.Ceiling(palletSizeZ / boxSizeZ));
+            else if (roundingOption == "RoundDown") _columnsPerLayer = Convert.ToInt32(Math.Floor(palletSizeZ / boxSizeZ));
+            else _columnsPerLayer = Convert.ToInt32(palletSizeZ / boxSizeZ);
+
+            var output = new LayerModel
+            {
+                RowsPerLayer = Convert.ToInt32(palletSizeX / boxSizeX),
+                ColumnsPerLayer = _columnsPerLayer
+            };
+
+            return output;
+        }
 
         /// <summary>
         /// Takes Box size from form (model)

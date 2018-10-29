@@ -48,12 +48,12 @@ namespace PalletConfig.Web.Models
             var maxColumns = output.PalletSize.Z / _palletModel.BoxSizeZ;
 
             // Calculate Standard Layer
-            double standardPalletZ = (maxColumns * _stackingOption.Rotation) * output.BoxSize.Z;
-            output.Standard = CalculateLayer(output.PalletSize.X, _palletModel.BoxSizeX, standardPalletZ, _palletModel.BoxSizeZ, _stackingOption.Mode);
+            var standardPalletZ = CalculateStandardPalletZ(_stackingOption.Rotation, maxColumns, _palletModel.BoxSizeZ, _stackingOption.Mode);
+            output.Standard = CalculateLayer(output.PalletSize.X, _palletModel.BoxSizeX, standardPalletZ, _palletModel.BoxSizeZ);
             
             // Calculate Rotated Layer
             var rotatedPalletZ = output.PalletSize.Z - standardPalletZ;
-            output.Rotated = CalculateLayer(output.PalletSize.X, _palletModel.BoxSizeZ, rotatedPalletZ, _palletModel.BoxSizeX, _stackingOption.Mode); 
+            output.Rotated = CalculateLayer(output.PalletSize.X, _palletModel.BoxSizeZ, rotatedPalletZ, _palletModel.BoxSizeX); 
             
             // Calculate boxes per layer
             int boxesPerLayer = ( output.Standard.RowsPerLayer * output.Standard.ColumnsPerLayer ) 
@@ -90,19 +90,24 @@ namespace PalletConfig.Web.Models
         /// <param name="boxSizeZ">Depth of box</param>
         /// <param name="roundingOption">Options of rounding a result to choose: Round, RoundUp or RoundDown</param>
         /// <returns></returns>
-        private LayerModel CalculateLayer(double palletSizeX, double boxSizeX, double palletSizeZ, double boxSizeZ, string roundingOption)
+        private LayerModel CalculateLayer(double palletSizeX, double boxSizeX, double palletSizeZ, double boxSizeZ)
         {
-            int _columnsPerLayer;
-
-            if (roundingOption == "RoundUp") _columnsPerLayer = Convert.ToInt32(Math.Ceiling(palletSizeZ / boxSizeZ));
-            else if (roundingOption == "RoundDown") _columnsPerLayer = Convert.ToInt32(Math.Floor(palletSizeZ / boxSizeZ));
-            else _columnsPerLayer = Convert.ToInt32(palletSizeZ / boxSizeZ);
-
             var output = new LayerModel
             {
-                RowsPerLayer = Convert.ToInt32(palletSizeX / boxSizeX),
-                ColumnsPerLayer = _columnsPerLayer
+                RowsPerLayer = Convert.ToInt32(Math.Floor(palletSizeX / boxSizeX)),
+                ColumnsPerLayer = Convert.ToInt32(Math.Floor(palletSizeZ / boxSizeZ))
             };
+
+            return output;
+        }
+
+        private int CalculateStandardPalletZ(double stackingRotation, int maxColumns, double boxSizeZ, string stackingMode)
+        {
+            int output;
+
+            if(stackingMode == "RoundUp") output = Convert.ToInt32(Math.Ceiling(maxColumns * stackingRotation) * boxSizeZ);
+            else if(stackingMode == "RoundDown") output = Convert.ToInt32(Math.Floor(maxColumns * stackingRotation) * boxSizeZ);
+            else output = Convert.ToInt32((maxColumns * stackingRotation) * boxSizeZ);
 
             return output;
         }

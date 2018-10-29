@@ -50,20 +50,17 @@ namespace PalletConfig.Web.Models
             // Calculate Standard Layer
             var standardPalletZ = CalculateStandardPalletZ(_stackingOption.Rotation, maxColumns, _palletModel.BoxSizeZ, _stackingOption.Mode);
             output.Standard = CalculateLayer(output.PalletSize.X, _palletModel.BoxSizeX, standardPalletZ, _palletModel.BoxSizeZ);
-            
+
             // Calculate Rotated Layer
             var rotatedPalletZ = output.PalletSize.Z - standardPalletZ;
-            output.Rotated = CalculateLayer(output.PalletSize.X, _palletModel.BoxSizeZ, rotatedPalletZ, _palletModel.BoxSizeX); 
-            
+            output.Rotated = CalculateLayer(output.PalletSize.X, _palletModel.BoxSizeZ, rotatedPalletZ, _palletModel.BoxSizeX);
+
             // Calculate boxes per layer
-            int boxesPerLayer = ( output.Standard.RowsPerLayer * output.Standard.ColumnsPerLayer ) 
-                                + ( output.Rotated.RowsPerLayer * output.Rotated.ColumnsPerLayer);
+            int boxesPerLayer = (output.Standard.RowsPerLayer * output.Standard.ColumnsPerLayer)
+                                + (output.Rotated.RowsPerLayer * output.Rotated.ColumnsPerLayer);
 
             // Calculate Layers Quantity
-            double weightPerLayer = boxesPerLayer * _palletModel.BoxWeight;
-            int maxWeightLayersQuantity = Convert.ToInt32(_palletModel.PalletWeight / weightPerLayer);
-            int maxHeightLayersQuantity = (_palletModel.PalletHeight - output.PalletSize.Y) / _palletModel.BoxSizeY;
-            output.LayersQuantity = Math.Min(maxHeightLayersQuantity, maxWeightLayersQuantity);
+            output.LayersQuantity = CalculateLayersQuantity(_palletModel, output, boxesPerLayer);
 
             // Calculate total number of boxes
             var maxVolume = output.PalletSize.X * output.PalletSize.Z * (_palletModel.PalletHeight - output.PalletSize.Y);
@@ -79,6 +76,14 @@ namespace PalletConfig.Web.Models
             output.TotalWeight = output.NumberOfBoxes * _palletModel.BoxWeight;
 
             return output;
+        }
+
+        private int CalculateLayersQuantity(PalletModel _palletModel, ConfigurationModel output, int boxesPerLayer)
+        {
+            double weightPerLayer = boxesPerLayer * _palletModel.BoxWeight;
+            int maxWeightLayersQuantity = Convert.ToInt32(_palletModel.PalletWeight / weightPerLayer);
+            int maxHeightLayersQuantity = (_palletModel.PalletHeight - output.PalletSize.Y) / _palletModel.BoxSizeY;
+            return Math.Min(maxHeightLayersQuantity, maxWeightLayersQuantity);
         }
 
         /// <summary>

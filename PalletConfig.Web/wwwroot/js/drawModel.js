@@ -1,6 +1,6 @@
 ﻿// Input data
 var inputPalletSize, inputBoxSize;
-var inputRowsPerLayer, inputColumnsPerLayer, inputLayersQuantity;
+var layerModelStandard, layerModelRotated, inputLayersQuantity;
 
 function Coordinates(X, Y, Z) {
     this.X = X;
@@ -8,6 +8,14 @@ function Coordinates(X, Y, Z) {
     this.Z = Z;
     this.area = function () {
         return this.X * this.Y * this.Z;
+    }
+}
+
+function LayerModel(RowsPerPallet, ColumnsPerPallet) {
+    this.RowsPerPallet = RowsPerPallet;
+    this.ColumnsPerPallet = ColumnsPerPallet;
+    this.area = function () {
+        return this.RowsPerPallet * this.ColumnsPerPallet;
     }
 }
 
@@ -63,7 +71,7 @@ function draw3D() {
 
         // Create objects
         createPallet();
-        generateAllLayers(inputRowsPerLayer, inputColumnsPerLayer, zeroPosition, boxSize, inputLayersQuantity, maxPosition, areLayersOpposite);
+        generateAllLayers(layerModelStandard, layerModelRotated, zeroPosition, boxSize, inputLayersQuantity, maxPosition, areLayersOpposite);
 
         // Controls
         controls = new THREE.OrbitControls(camera, canvas);
@@ -123,19 +131,20 @@ function draw3D() {
         return _inputSize;
     }
 
-    function generateAllLayers(_numberRows, _numberColumns, _zeroPosition, _boxSize, _layersQuantity, _maxPosition, _areLayersOpposite) {
+    function generateAllLayers(_layerModelStandard, _layerModelRotated, _zeroPosition, _boxSize, _layersQuantity, _maxPosition, _areLayersOpposite) {
         var posX = _zeroPosition.X;
         var posY = _zeroPosition.Y;
         var posZ = _zeroPosition.Z;
         var changeSide = false;
         
         for (var i = 0; i < _layersQuantity; i++) {
-            // TODO: Once logic sorted, adjust code to be able to create Standard and Rotated part of layer!
+            // Starting position
+            var position = new Coordinates(X = posX, Y = posY, Z = posZ);
             // Generate Standard part
-            generateLayer(_numberRows, _numberColumns, new Coordinates(X = posX, Y = posY, Z = posZ), _boxSize, changeSide);
+            generateLayer(_layerModelStandard.RowsPerPallet, _layerModelStandard.ColumnsPerPallet, position, _boxSize, changeSide, false);
             // Generate Rotated part
-            //generateLayer(_numberRows, _numberColumns, new Coordinates(X = posX, Y = posY, Z = posZ), _boxSize, changeSide);
-
+            generateLayer(_layerModelRotated.RowsPerPallet, _layerModelRotated.ColumnsPerPallet, position, _boxSize, changeSide, true);
+            
             // Move position up to another layer
             posY += _boxSize.Y;
 
@@ -161,17 +170,26 @@ function draw3D() {
         }
     }
 
-    function generateLayer(_numberRows, _numberColumns, _position, _boxSize, _changeSide) {
-        for (var i = 0; i < _numberRows; i++) {
-            for (var j = 0; j < _numberColumns; j++) {
-                if (_changeSide == true) {
-                    generateBox(_boxSize, _position.X - (_boxSize.X * i), _position.Y, _position.Z - (_boxSize.Z * j));
-                }
-                else {
-                    generateBox(_boxSize, _position.X + (_boxSize.X * i), _position.Y, _position.Z + (_boxSize.Z * j));
-                }
-            }
+    function generateLayer(numberRows, numberColumns, position, boxSize, changeSide, isRotated) {
+        var _boxSize = new Coordinates(boxSize.X, boxSize.Y, boxSize.Z);
+        var startingPosition = new Coordinates(position.X, position.Y, position.Z);
+        if (isRotated == true) {
+            var helper = _boxSize.X;
+            _boxSize.X = _boxSize.Z;
+            _boxSize.Z = helper;
         }
+        // TODO: Rotated pallets are not aligned to pallet
+        for (var i = 0; i < numberRows; i++) {
+            position.Z = startingPosition.Z;
+            for (var j = 0; j < numberColumns; j++) {
+                generateBox(_boxSize, position.X, position.Y, position.Z);
+                if (changeSide == true) { position.Z -= _boxSize.Z; }
+                else { position.Z += _boxSize.Z; }
+            }
+            if (changeSide == true) { position.X -= _boxSize.X; }
+            else { position.X += _boxSize.X; }
+        }
+        position.X = startingPosition.X;
     }
 
     function generateBox(_boxSize, posX, posY, posZ) {

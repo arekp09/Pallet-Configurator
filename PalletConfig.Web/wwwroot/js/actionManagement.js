@@ -11,11 +11,11 @@
         // Selected option
         var selectId = $("#chooseStackingOption option:selected").val();
 
-        // Apply input data to draw 3D model
+        // Pass input data to draw 3D model
         inputPalletSize = new Coordinates(jsonConfig[selectId].PalletSize.X, jsonConfig[selectId].PalletSize.Y, jsonConfig[selectId].PalletSize.Z);
         inputBoxSize = new Coordinates(jsonConfig[selectId].BoxSize.X, jsonConfig[selectId].BoxSize.Y, jsonConfig[selectId].BoxSize.Z);
-        inputRowsPerLayer = jsonConfig[selectId].RowsPerLayer;
-        inputColumnsPerLayer = jsonConfig[selectId].ColumnsPerLayer;
+        layerModelStandard = new LayerModel(jsonConfig[selectId].Standard.RowsPerLayer, jsonConfig[selectId].Standard.ColumnsPerLayer);
+        layerModelRotated = new LayerModel(jsonConfig[selectId].Rotated.RowsPerLayer, jsonConfig[selectId].Rotated.ColumnsPerLayer);
         inputLayersQuantity = jsonConfig[selectId].LayersQuantity;
 
         // Clear canvas div

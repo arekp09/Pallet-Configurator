@@ -58,6 +58,7 @@ namespace PalletConfig.Web.Models
             int maxVolume, boxVolume, actualVolume;
             output.NumberOfBoxes = CalculateNumberOfBoxes(_palletModel, output, boxesPerLayer, out maxVolume, out boxVolume, out actualVolume);
             // Calculate Volume
+            // TODO: Volume is not calculated (0.00%)
             output.Volume = Convert.ToDouble(actualVolume) / Convert.ToDouble(maxVolume);
             // Calculate total Weight and Height
             output.TotalHeight = output.PalletSize.Y + (_palletModel.BoxSizeY * output.LayersQuantity);

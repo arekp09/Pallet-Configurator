@@ -174,11 +174,15 @@ function draw3D() {
         var _boxSize = new Coordinates(boxSize.X, boxSize.Y, boxSize.Z);
         var startingPosition = new Coordinates(position.X, position.Y, position.Z);
         if (isRotated == true) {
+            // Rotate box
             var helper = _boxSize.X;
             _boxSize.X = _boxSize.Z;
             _boxSize.Z = helper;
+            // Align position after rotation
+            startingPosition.X -= (_boxSize.Y - _boxSize.Z) / 2;
+            position.X = startingPosition.X;
+            startingPosition.Z += (_boxSize.Z - _boxSize.X) / 2;
         }
-        // TODO: Rotated pallets are not aligned to pallet
         for (var i = 0; i < numberRows; i++) {
             position.Z = startingPosition.Z;
             for (var j = 0; j < numberColumns; j++) {

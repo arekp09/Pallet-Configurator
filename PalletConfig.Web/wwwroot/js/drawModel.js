@@ -124,32 +124,32 @@ function draw3D() {
         }    
     }
 
-    function sizeScalling(_inputSize) {
-        _inputSize.X = (_inputSize.X / inputSizeMax) * 2;
-        _inputSize.Y = (_inputSize.Y / inputSizeMax) * 2;
-        _inputSize.Z = (_inputSize.Z / inputSizeMax) * 2;
-        return _inputSize;
+    function sizeScalling(inputSize) {
+        inputSize.X = (inputSize.X / inputSizeMax) * 2;
+        inputSize.Y = (inputSize.Y / inputSizeMax) * 2;
+        inputSize.Z = (inputSize.Z / inputSizeMax) * 2;
+        return inputSize;
     }
 
-    function generateAllLayers(_layerModelStandard, _layerModelRotated, _zeroPosition, _boxSize, _layersQuantity, _maxPosition, _areLayersOpposite) {
-        var posX = _zeroPosition.X;
-        var posY = _zeroPosition.Y;
-        var posZ = _zeroPosition.Z;
+    function generateAllLayers(layerModelStandard, layerModelRotated, zeroPosition, boxSize, layersQuantity, maxPosition, areLayersOpposite) {
+        var posX = zeroPosition.X;
+        var posY = zeroPosition.Y;
+        var posZ = zeroPosition.Z;
         var changeSide = false;
         
-        for (var i = 0; i < _layersQuantity; i++) {
+        for (var i = 0; i < layersQuantity; i++) {
             // Starting position
             var position = new Coordinates(X = posX, Y = posY, Z = posZ);
             // Generate Standard part
-            generateLayer(_layerModelStandard.RowsPerPallet, _layerModelStandard.ColumnsPerPallet, position, _boxSize, changeSide, false);
+            generateLayer(layerModelStandard.RowsPerPallet, layerModelStandard.ColumnsPerPallet, position, boxSize, changeSide, false);
             // Generate Rotated part
-            generateLayer(_layerModelRotated.RowsPerPallet, _layerModelRotated.ColumnsPerPallet, position, _boxSize, changeSide, true);
+            generateLayer(layerModelRotated.RowsPerPallet, layerModelRotated.ColumnsPerPallet, position, boxSize, changeSide, true);
             
             // Move position up to another layer
-            posY += _boxSize.Y;
+            posY += boxSize.Y;
 
             // Check if user want to stack layers opposite
-            if (_areLayersOpposite == true) {
+            if (areLayersOpposite == true) {
                 if (changeSide == true) {
                     changeSide = false;
                 }
@@ -159,12 +159,12 @@ function draw3D() {
 
                 // Change coordinates of starting position
                 if (changeSide == true) {
-                    posX = _maxPosition.X;
-                    posZ = _maxPosition.Z;
+                    posX = maxPosition.X;
+                    posZ = maxPosition.Z;
                 }
                 else {
-                    posX = _zeroPosition.X;
-                    posZ = _zeroPosition.Z;
+                    posX = zeroPosition.X;
+                    posZ = zeroPosition.Z;
                 }
             }
         }
@@ -196,8 +196,8 @@ function draw3D() {
         position.X = startingPosition.X;
     }
 
-    function generateBox(_boxSize, posX, posY, posZ) {
-        var geometryBox = new THREE.BoxGeometry(_boxSize.X, _boxSize.Y, _boxSize.Z);
+    function generateBox(boxSize, posX, posY, posZ) {
+        var geometryBox = new THREE.BoxGeometry(boxSize.X, boxSize.Y, boxSize.Z);
         var meshBox = new THREE.Mesh(geometryBox, materialBox);
         scene.add(meshBox);
         meshTop.add(meshBox);

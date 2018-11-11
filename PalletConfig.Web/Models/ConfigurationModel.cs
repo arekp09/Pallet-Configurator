@@ -54,7 +54,7 @@ namespace PalletConfig.Web.Models
                                 + (output.Rotated.RowsPerLayer * output.Rotated.ColumnsPerLayer);
             // Calculate Layers Quantity
             output.LayersQuantity = CalculateLayersQuantity(_palletModel, output.PalletSize.Y, boxesPerLayer);
-            // Calculate total number of boxesi
+            // Calculate total number of boxes
             int maxVolume, boxVolume;
             output.NumberOfBoxes = CalculateNumberOfBoxes(_palletModel, output, boxesPerLayer, out maxVolume, out boxVolume);
             int actualVolume = output.NumberOfBoxes * boxVolume;

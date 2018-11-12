@@ -31,8 +31,8 @@ function draw3D() {
     var camera, scene, renderer, controls;
     var meshTop; //parent of all objects
     var position = new Coordinates(0, 0, 0);
-    var palletSize = sizeScalling(inputPalletSize);
-    var boxSize = sizeScalling(inputBoxSize);
+    var palletSize = sizeScaling(inputPalletSize);
+    var boxSize = sizeScaling(inputBoxSize);
     var zeroPosition = new Coordinates(
         position.X - (palletSize.X * 0.5) + (boxSize.X * 0.5),
         position.Y + (palletSize.Y * 0.025) + (boxSize.Y * 0.5),
@@ -124,7 +124,7 @@ function draw3D() {
         }    
     }
 
-    function sizeScalling(inputSize) {
+    function sizeScaling(inputSize) {
         inputSize.X = (inputSize.X / inputSizeMax) * 2;
         inputSize.Y = (inputSize.Y / inputSizeMax) * 2;
         inputSize.Z = (inputSize.Z / inputSizeMax) * 2;
@@ -178,11 +178,21 @@ function draw3D() {
             var helper = _boxSize.X;
             _boxSize.X = _boxSize.Z;
             _boxSize.Z = helper;
+
             // Align position after rotation
-            startingPosition.X -= (_boxSize.Y - _boxSize.Z) / 2;
-            position.X = startingPosition.X;
-            startingPosition.Z += (_boxSize.Z - _boxSize.X) / 2;
+            if (changeSide == true) {
+                startingPosition.X += (_boxSize.Y - _boxSize.Z) / 2;
+                position.X = startingPosition.X;
+                startingPosition.Z -= (_boxSize.Z - _boxSize.X) / 2;
+            }
+            else {
+                startingPosition.X -= (_boxSize.Y - _boxSize.Z) / 2;
+                position.X = startingPosition.X;
+                startingPosition.Z += (_boxSize.Z - _boxSize.X) / 2;
+            }
         }
+
+        // Generate boxes in layer
         for (var i = 0; i < numberRows; i++) {
             position.Z = startingPosition.Z;
             for (var j = 0; j < numberColumns; j++) {

@@ -30,7 +30,7 @@ namespace PalletConfig.Web.Models
             return output;
         }
         
-        public ConfigurationModel CalculateOption(PalletModel palletModel, StackingOptionModel _stackingOption)
+        public ConfigurationModel CalculateOption(PalletModel palletModel, StackingOptionModel stackingOption)
         {
             var output = new ConfigurationModel();
 
@@ -39,12 +39,12 @@ namespace PalletConfig.Web.Models
             // GetPalletSize
             output.PalletSize = GetPalletSize(palletModel);
             // Option Name
-            output.OptionName = _stackingOption.Name;
+            output.OptionName = stackingOption.Name;
             // Calculate max possible rows and collumns
             var maxRows = output.PalletSize.X / palletModel.BoxSizeX;
             var maxColumns = output.PalletSize.Z / palletModel.BoxSizeZ;
             // Calculate Standard Layer
-            var standardPalletZ = CalculateStandardPalletZ(_stackingOption.Rotation, maxColumns, palletModel.BoxSizeZ, _stackingOption.Mode);
+            var standardPalletZ = CalculateStandardPalletZ(stackingOption.Rotation, maxColumns, palletModel.BoxSizeZ, stackingOption.Mode);
             output.Standard = CalculateLayer(output.PalletSize.X, palletModel.BoxSizeX, standardPalletZ, palletModel.BoxSizeZ);
             // Calculate Rotated Layer
             var rotatedPalletZ = output.PalletSize.Z - standardPalletZ;
@@ -130,7 +130,7 @@ namespace PalletConfig.Web.Models
         }
 
         /// <summary>
-        /// Takes Box size from form (model)
+        /// Takes Box size from form (model) and return in CoordinatesModel format
         /// </summary>
         /// <param name="palletModel">PalletModel from form</param>
         /// <returns>Box Size as CoordinatesModel</returns>
@@ -146,7 +146,7 @@ namespace PalletConfig.Web.Models
         }
 
         /// <summary>
-        /// Takes Pallet size from form (model)
+        /// Takes Pallet size from form (model) and return in CoordinatesModel format
         /// </summary>
         /// <param name="_palletModel">PalletModel from form</param>
         /// <returns>Pallet Size as CoordinatesModel</returns>

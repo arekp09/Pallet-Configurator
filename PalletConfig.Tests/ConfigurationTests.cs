@@ -18,10 +18,7 @@ namespace PalletConfig.Tests
         readonly PalletModel testModel = new PalletModel {BoxSizeX = 20, BoxSizeY = 10, BoxSizeZ = 30,
             BoxWeight = 2, PalletSizeX = 150, PalletSizeY = 25, PalletSizeZ = 250,
             PalletHeight = 200, PalletWeight = 500, StackOpposite = false };
-
         
-
-
         [Fact]
         public void CalculateOptionA_NoRotation_ReturnConfigurationObject()
         {
@@ -176,6 +173,20 @@ namespace PalletConfig.Tests
             Assert.Equal(8, actual.LayersQuantity);
             Assert.InRange(actual.Volume, 0.01, 1);
             Assert.True(actual.TotalWeight <= testModel2.PalletWeight);
+        }
+
+        readonly PalletModel testModel3 = new PalletModel { BoxSizeX = -1, BoxSizeY = 10,
+            BoxSizeZ = 30, BoxWeight = 1, PalletSizeX = 150, PalletSizeY = 25, PalletSizeZ = 250,
+            PalletHeight = 200, PalletWeight = 500, StackOpposite = false };
+
+        [Fact]
+        public void CalculateOptionAmodel3_NoRotation_ReturnException()
+        {
+            var config = new ConfigurationModel();
+
+            Action actual = () => config.CalculateOption(testModel3, stackingOptionModel_A);
+
+            Assert.Throws<Exception>(actual);
         }
     }
 }

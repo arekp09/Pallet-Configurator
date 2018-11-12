@@ -178,11 +178,21 @@ function draw3D() {
             var helper = _boxSize.X;
             _boxSize.X = _boxSize.Z;
             _boxSize.Z = helper;
+
             // Align position after rotation
-            startingPosition.X -= (_boxSize.Y - _boxSize.Z) / 2;
-            position.X = startingPosition.X;
-            startingPosition.Z += (_boxSize.Z - _boxSize.X) / 2;
+            if (changeSide == true) {
+                startingPosition.X += (_boxSize.Y - _boxSize.Z) / 2;
+                position.X = startingPosition.X;
+                startingPosition.Z -= (_boxSize.Z - _boxSize.X) / 2;
+            }
+            else {
+                startingPosition.X -= (_boxSize.Y - _boxSize.Z) / 2;
+                position.X = startingPosition.X;
+                startingPosition.Z += (_boxSize.Z - _boxSize.X) / 2;
+            }
         }
+
+        // Generate boxes in layer
         for (var i = 0; i < numberRows; i++) {
             position.Z = startingPosition.Z;
             for (var j = 0; j < numberColumns; j++) {

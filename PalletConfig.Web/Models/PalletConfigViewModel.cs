@@ -15,7 +15,6 @@ namespace PalletConfig.Web.Models
         public List<ConfigurationModel> Configurations { get; set; }
         public PalletModel PalletData { get; set; }
         public string EventCommand { get; set; }
-        public string JsonConfiguration { get; set; }
         ConfigurationModel configurationModel;
 
         /// <summary>

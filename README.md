@@ -1,4 +1,4 @@
-### [Open Documentation](https://github.com/arekp09/Pallet-Configurator/wiki/1.-Documentation)
+### [Open Documentation](https://github.com/arekp09/Pallet-Configurator/wiki/0.-Documentation)
 
 <div class="extra-margin">
     <div class="panel panel-primary">

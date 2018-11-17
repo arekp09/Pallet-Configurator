@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using PalletConfig.Web.Models;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace PalletConfig.Tests
 {
@@ -186,7 +186,7 @@ namespace PalletConfig.Tests
 
             Action actual = () => config.CalculateOption(testModel3, stackingOptionModel_A);
 
-            Assert.Throws<Exception>(actual);
+            Assert.Throws<ValidationException>(actual);
         }
     }
 }

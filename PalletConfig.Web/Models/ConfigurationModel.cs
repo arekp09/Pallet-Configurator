@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace PalletConfig.Web.Models
@@ -32,6 +33,9 @@ namespace PalletConfig.Web.Models
         
         public ConfigurationModel CalculateOption(PalletModel palletModel, StackingOptionModel stackingOption)
         {
+            // PalletModel validation
+            IsModelValid(palletModel);
+
             var output = new ConfigurationModel();
 
             // GetBoxSize
@@ -159,6 +163,19 @@ namespace PalletConfig.Web.Models
                 Z = _palletModel.PalletSizeZ
             };
             return output;
+        }
+
+        private void IsModelValid(PalletModel palletModel)
+        {
+            var context = new ValidationContext(palletModel, serviceProvider: null, items: null);
+            var results = new List<ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(palletModel, context, results, true);
+
+            if (!isValid)
+            {
+                throw new ValidationException();
+            }
         }
     }
 }

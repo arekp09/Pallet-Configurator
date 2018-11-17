@@ -181,14 +181,14 @@ function draw3D() {
 
             // Align position after rotation
             if (changeSide == true) {
-                startingPosition.X += (_boxSize.Y - _boxSize.Z) / 2;
+                startingPosition.X += (_boxSize.X - _boxSize.Z) / 2;
                 position.X = startingPosition.X;
                 startingPosition.Z -= (_boxSize.Z - _boxSize.X) / 2;
             }
             else {
-                startingPosition.X -= (_boxSize.Y - _boxSize.Z) / 2;
+                startingPosition.X += (_boxSize.X / 2) - (_boxSize.Z / 2);
                 position.X = startingPosition.X;
-                startingPosition.Z += (_boxSize.Z - _boxSize.X) / 2;
+                startingPosition.Z += (_boxSize.Z / 2) - (_boxSize.X / 2);
             }
         }
 
